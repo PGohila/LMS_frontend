@@ -6,15 +6,13 @@ class CompanyForm(forms.Form):
 	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 
 class IdentificationtypeForm(forms.Form):
-	company_id_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
 	type_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
 	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 	def __init__(self, *args, **kwargs):
-		company_id_list = kwargs.pop('company_id_choice', [])
+		
 		super().__init__(*args, **kwargs)
-		self.fields['company_id_id'].choices = [(item['id'], item['name']) for item in company_id_list]
-
+		
 class CustomerForm(forms.Form):
 	firstname = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	lastname = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
@@ -50,7 +48,7 @@ class CustomerdocumentsForm(forms.Form):
 		self.fields['document_type_id'].choices = [(item['id'], item['type_name']) for item in document_type_list]
 
 class LoantypeForm(forms.Form):
-	company_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
+	
 	loantype = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
 	interest_rate = forms.FloatField(required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
@@ -62,9 +60,9 @@ class LoantypeForm(forms.Form):
 	charges = forms.CharField( required=True, widget=forms.Textarea(attrs={"class": "form-control"}))
 	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 	def __init__(self, *args, **kwargs):
-		company_list = kwargs.pop('company_choice', [])
+		
 		super().__init__(*args, **kwargs)
-		self.fields['company_id'].choices = [(item['id'], item['name']) for item in company_list]
+		
 
 class LoanapplicationForm(forms.Form):
 	TENURE_CHOICES = [
@@ -197,14 +195,13 @@ class CollateraltypeForm(forms.Form):
 		('Intangible','Intangible'), # intangible is non-physical assets like parents, trademarks
 		('Financial','Financial'), # financial assets like stocks, bonds, and certificates
 	]
-	company_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
+	
 	name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
 	category = forms.ChoiceField(choices=CATEGORY, label="Category Type", widget=forms.Select(attrs={'class': 'form-control'}))
 	def __init__(self, *args, **kwargs):
-		company_list = kwargs.pop('company_choice', [])
 		super().__init__(*args, **kwargs)
-		self.fields['company_id'].choices = [(item['id'], item['name']) for item in company_list]
+		
 
 class CollateralsForm(forms.Form):
 	COLLATERAL_STATUS = [
@@ -237,26 +234,25 @@ class CollateralsForm(forms.Form):
 		self.fields['collateral_type_id'].choices = [(item['id'], item['name']) for item in collateral_type_list]
 
 class PaymentmethodForm(forms.Form):
-	company_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
 	method_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
 	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 	def __init__(self, *args, **kwargs):
-		company_list = kwargs.pop('company_choice', [])
+	
 		super().__init__(*args, **kwargs)
-		self.fields['company_id'].choices = [(item['id'], item['name']) for item in company_list]
+	
 
 class CurrencyForm(forms.Form):
-	company_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
+	
 	code = forms.CharField(max_length=3, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	symbol = forms.CharField(max_length=5, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
 	exchange_rate = forms.FloatField( required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
 	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 	def __init__(self, *args, **kwargs):
-		company_list = kwargs.pop('company_choice', [])
+	
 		super().__init__(*args, **kwargs)
-		self.fields['company_id'].choices = [(item['id'], item['name']) for item in company_list]
+	
 
 class CreditscoresForm(forms.Form):
 	company_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
@@ -270,11 +266,7 @@ class CreditscoresForm(forms.Form):
 		self.fields['company_id'].choices = [(item['id'], item['name']) for item in company_list]
 		self.fields['customer_id'].choices = [(item['id'], item['customer_id']) for item in customer_id_list]
 
-
-
-
 class BankaccountForm(forms.Form):
-	company_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
 	account_number = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	account_holder_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	bank_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
@@ -283,9 +275,9 @@ class BankaccountForm(forms.Form):
 	swift_code = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
 	ifsc_code = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
 	def __init__(self, *args, **kwargs):
-		company_list = kwargs.pop('company_choice', [])
+	
 		super().__init__(*args, **kwargs)
-		self.fields['company_id'].choices = [(item['id'], item['name']) for item in company_list]
+		
 		
 class CustomerfeedbackForm(forms.Form):
 	feedback_id = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))

@@ -84,8 +84,6 @@ urlpatterns = [
     path('paymentmethod-edit/<pk>/', paymentmethod_edit, name='paymentmethod_edit'),
     path('paymentmethod-delete/<pk>/', paymentmethod_delete, name='paymentmethod_delete'),
 
-    
-
     path('creditscores/', creditscores_create, name='creditscores'),
     path('creditscores-view/<pk>/', creditscores_view, name='creditscores_view'),
     path('creditscores-edit/<pk>/', creditscores_edit, name='creditscores_edit'),
@@ -95,8 +93,6 @@ urlpatterns = [
     path('customerfeedback-view/<pk>/', customerfeedback_view, name='customerfeedback_view'),
     path('customerfeedback-edit/<pk>/', customerfeedback_edit, name='customerfeedback_edit'),
     path('customerfeedback-delete/<pk>/', customerfeedback_delete, name='customerfeedback_delete'),
-
- 
 
     path('notifications/', notifications_create, name='notifications'),
     path('notifications-view/<pk>/', notifications_view, name='notifications_view'),

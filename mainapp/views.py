@@ -381,32 +381,15 @@ def customer_view(request,pk):
 def customer_edit(request,pk):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_id_records = response['data']
-        else:
-            print('Data not found in response')
-       
+        company_id = request.session.get('company_id')   
+        
         MSID = get_service_plan('view identificationtype')
         if MSID is None:
             print('MSID not found')
 
         data = {
             'ms_id': MSID,
-            'ms_payload': {}
+            'ms_payload': {'company_id':company_id}
         }
 
         json_data = json.dumps(data)
@@ -432,12 +415,12 @@ def customer_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = CustomerForm(initial=master_type_edit,company_id_choice=company_id_records,identification_type_choice=identification_type_records)
+        form = CustomerForm(initial=master_type_edit,identification_type_choice=identification_type_records)
 
         MSID= get_service_plan('view customer')
         if MSID is None:
                 print('MISID not found')
-        payload_form = {       
+        payload_form = { 'company_id':company_id  
         }
         data={
             'ms_id':MSID,
@@ -452,12 +435,13 @@ def customer_edit(request,pk):
             MSID= get_service_plan('update customer')
             if MSID is None:
                 print('MISID not found')
-            form = CustomerForm(request.POST,company_id_choice=company_id_records,identification_type_choice=identification_type_records)
+            form = CustomerForm(request.POST,identification_type_choice=identification_type_records)
             if form.is_valid():
                 cleaned_data = form.cleaned_data          
                 cleaned_data['customer_id'] = pk    
                 cleaned_data['dateofbirth'] = cleaned_data['dateofbirth'].strftime('%Y-%m-%d')
                 cleaned_data['expiry_date'] = cleaned_data['expiry_date'].strftime('%Y-%m-%d')
+                cleaned_data['company_id'] = company_id
                    
                 data={
                     'ms_id':MSID,
@@ -632,23 +616,6 @@ def customerdocuments_edit(request,pk):
     try:
         token = request.session['user_token']
         company_id = request.session.get('company_id')
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
        
         MSID = get_service_plan('view identificationtype')
         if MSID is None:
@@ -656,7 +623,7 @@ def customerdocuments_edit(request,pk):
 
         data = {
             'ms_id': MSID,
-            'ms_payload': {}
+            'ms_payload': {'company_id':company_id}
         }
 
         json_data = json.dumps(data)
@@ -682,12 +649,12 @@ def customerdocuments_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = CustomerdocumentsForm(initial=master_type_edit,company_choice=company_records,document_type_choice=document_type_records)
+        form = CustomerdocumentsForm(initial=master_type_edit,document_type_choice=document_type_records)
 
         MSID= get_service_plan('view customerdocuments')
         if MSID is None:
                 print('MISID not found')
-        payload_form = {       
+        payload_form = { 'company_id':company_id      
         }
         data={
             'ms_id':MSID,
@@ -702,13 +669,13 @@ def customerdocuments_edit(request,pk):
             MSID= get_service_plan('update customerdocuments')
             if MSID is None:
                 print('MISID not found')
-            form = CustomerdocumentsForm(request.POST,company_choice=company_records,document_type_choice=document_type_records)
+            form = CustomerdocumentsForm(request.POST,document_type_choice=document_type_records)
             if form.is_valid():
                 cleaned_data = form.cleaned_data          
                 cleaned_data['customerdocuments_id'] = pk    
                 cleaned_data['uploaded_at'] = cleaned_data['uploaded_at'].strftime('%Y-%m-%d')
                 cleaned_data['verified_at'] = cleaned_data['verified_at'].strftime('%Y-%m-%d')
-                   
+                cleaned_data['company_id'] = company_id 
                 data={
                     'ms_id':MSID,
                     'ms_payload':cleaned_data
@@ -915,32 +882,15 @@ def loanapplication_view(request,pk):
 def loanapplication_edit(request,pk):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-       
+        company_id = request.session.get('company_id')
+        
         MSID = get_service_plan('view customer')
         if MSID is None:
             print('MSID not found')
 
         data = {
             'ms_id': MSID,
-            'ms_payload': {}
+            'ms_payload': {'company_id':company_id}
         }
 
         json_data = json.dumps(data)
@@ -958,7 +908,7 @@ def loanapplication_edit(request,pk):
 
         data = {
             'ms_id': MSID,
-            'ms_payload': {}
+            'ms_payload': {'company_id':company_id}
         }
 
         json_data = json.dumps(data)
@@ -984,12 +934,12 @@ def loanapplication_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = LoanapplicationForm(initial=master_type_edit,company_choice=company_records,customer_id_choice=customer_id_records,loantype_choice=loantype_records)
+        form = LoanapplicationForm(initial=master_type_edit,customer_id_choice=customer_id_records,loantype_choice=loantype_records)
 
         MSID= get_service_plan('view loanapplication')
         if MSID is None:
                 print('MISID not found')
-        payload_form = {       
+        payload_form = {  'company_id':company_id     
         }
         data={
             'ms_id':MSID,
@@ -1004,10 +954,12 @@ def loanapplication_edit(request,pk):
             MSID= get_service_plan('update loanapplication')
             if MSID is None:
                 print('MISID not found')
-            form = LoanapplicationForm(request.POST,company_choice=company_records,customer_id_choice=customer_id_records,loantype_choice=loantype_records)
+            form = LoanapplicationForm(request.POST,customer_id_choice=customer_id_records,loantype_choice=loantype_records)
             if form.is_valid():
-                cleaned_data = form.cleaned_data          
-                cleaned_data['loanapplication_id'] = pk    
+                cleaned_data = form.cleaned_data  
+                cleaned_data['company_id']=company_id        
+                cleaned_data['loanapplication_id'] = pk   
+                del cleaned_data['repayment_date'] 
 
                    
                 data={
@@ -1018,7 +970,7 @@ def loanapplication_edit(request,pk):
                 response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
                 if response['status_code'] == 0:
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/loanapplication')
+                    return redirect('loanapplication')
                 else:
                     # return JsonResponse({'error': 'Failed to save form data'}, status=400)
                     messages.info(request, "Oops..! Application Failed to Submitted..")
@@ -1940,45 +1892,24 @@ def payments_delete(request,pk):
 def identificationtype_create(request):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_id_records = response['data']
-        else:
-            print('Data not found in response')
-        form=IdentificationtypeForm(company_id_choice=company_id_records)
-        MSID= get_service_plan('view identificationtype')
+        company_id = request.session.get('company_id')
+        form =IdentificationtypeForm()
+        MSID= get_service_plan('view identificationtype') # view_identificationtype
         if MSID is None:
             print('MISID not found')
-   
-        data={
-            'ms_id':MSID,
-            'ms_payload':{}
-        }
+        data = {'ms_id':MSID,'ms_payload':{'company_id':company_id}}
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         master_view = response['data']
 
         if request.method == "POST":
-            form = IdentificationtypeForm(request.POST,company_id_choice=company_id_records)
+            form = IdentificationtypeForm(request.POST)
             if form.is_valid():
                 MSID= get_service_plan('create identificationtype')
                 if MSID is None:
                     print('MISID not found')      
                 cleaned_data = form.cleaned_data
-                     
+                cleaned_data['company_id'] = company_id
                 data={
                     'ms_id':MSID,
                     'ms_payload':cleaned_data
@@ -2004,7 +1935,7 @@ def identificationtype_create(request):
 def identificationtype_view(request,pk):
     try:
         token = request.session['user_token']
-        MSID= get_service_plan('view identificationtype')
+        MSID= get_service_plan('view identificationtype') # view identificationtype
         if MSID is None:
                 print('MISID not found')
         payload_form = {
@@ -2017,20 +1948,9 @@ def identificationtype_view(request,pk):
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         master_view = response['data'][0]
-        form = IdentificationtypeForm(initial=master_view)    
-        MSID= get_service_plan('view identificationtype')
-        if MSID is None:
-            print('MISID not found')
-        payload_form = {       
-        }
-        data={
-            'ms_id':MSID,
-            'ms_payload':payload_form
-        }
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
-        master_view = response['data']
+        form = IdentificationtypeForm(initial=master_view)  
 
+        
         context={   
             "identificationtype_view_active":"active",
             "form":form,
@@ -2045,24 +1965,9 @@ def identificationtype_edit(request,pk):
     try:
         token = request.session['user_token']
        
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
+        company_id = request.session.get('company_id')
 
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_id_records = response['data']
-        else:
-            print('Data not found in response')
-        MSID= get_service_plan('view identificationtype')
+        MSID = get_service_plan('view identificationtype') # view identificationtype
         if MSID is None:
             print('MISID not found')
         payload_form = {
@@ -2077,13 +1982,12 @@ def identificationtype_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = IdentificationtypeForm(initial=master_type_edit,company_id_choice=company_id_records)
+        form = IdentificationtypeForm(initial=master_type_edit)
 
-        MSID= get_service_plan('view identificationtype')
+        MSID= get_service_plan('view identificationtype') # view_identificationtype
         if MSID is None:
                 print('MISID not found')
-        payload_form = {       
-        }
+        payload_form = { }
         data={
             'ms_id':MSID,
             'ms_payload':payload_form
@@ -2091,16 +1995,17 @@ def identificationtype_edit(request,pk):
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         master_view = response['data']
-        print('master_view',master_view)
+
 
         if request.method == 'POST':
             MSID= get_service_plan('update identificationtype')
             if MSID is None:
                 print('MISID not found')
-            form = IdentificationtypeForm(request.POST,company_id_choice=company_id_records)
+            form = IdentificationtypeForm(request.POST)
             if form.is_valid():
                 cleaned_data = form.cleaned_data          
                 cleaned_data['identificationtype_id'] = pk    
+            
                    
                 data={
                     'ms_id':MSID,
@@ -2158,61 +2063,38 @@ def identificationtype_delete(request,pk):
 def loantype_create(request):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-        form=LoantypeForm(company_choice=company_records)
-        MSID= get_service_plan('view loantype')
+        company_id = request.session.get('company_id')
+        form = LoantypeForm()
+        MSID = get_service_plan('view loantype')
         if MSID is None:
             print('MISID not found')
-   
-        data={
-            'ms_id':MSID,
-            'ms_payload':{}
-        }
+        data = {'ms_id':MSID,'ms_payload':{'company_id':company_id}}
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         master_view = response['data']
 
         if request.method == "POST":
-            form = LoantypeForm(request.POST,company_choice=company_records)
+            form = LoantypeForm(request.POST)
             if form.is_valid():
-                MSID= get_service_plan('create loantype')
+                MSID= get_service_plan('create loantype') # create_loantype
                 if MSID is None:
                     print('MISID not found')      
-                cleaned_data = form.cleaned_data
-                     
-                data={
-                    'ms_id':MSID,
-                    'ms_payload':cleaned_data
-                } 
+                cleaned_data = form.cleaned_data   
+                cleaned_data['company_id'] = company_id
+
+                data = {'ms_id':MSID,'ms_payload':cleaned_data} 
                 json_data = json.dumps(data)
                 response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
-                print('response',response)
+           
                 if response['status_code'] ==  0:                  
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/loantype')
+                    return redirect('loantype')
                 else:
                     messages.info(request, "Oops..! Application Failed to Submitted..")
             else:
                 print('errorss',form.errors) 
         
-        context={      
+        context = {      
             'form':form,'records':master_view,"save":True
         }
         return render(request, 'loantype.html',context)
@@ -2262,25 +2144,8 @@ def loantype_view(request,pk):
 def loantype_edit(request,pk):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-        MSID= get_service_plan('view loantype')
+        company_id = request.session.get('company_id')
+        MSID = get_service_plan('view loantype')
         if MSID is None:
             print('MISID not found')
         payload_form = {
@@ -2295,7 +2160,7 @@ def loantype_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = LoantypeForm(initial=master_type_edit,company_choice=company_records)
+        form = LoantypeForm(initial=master_type_edit)
 
         MSID= get_service_plan('view loantype')
         if MSID is None:
@@ -2315,11 +2180,11 @@ def loantype_edit(request,pk):
             MSID= get_service_plan('update loantype')
             if MSID is None:
                 print('MISID not found')
-            form = LoantypeForm(request.POST,company_choice=company_records)
+            form = LoantypeForm(request.POST)
             if form.is_valid():
                 cleaned_data = form.cleaned_data          
                 cleaned_data['loantype_id'] = pk    
-                   
+                cleaned_data['company_id'] = company_id
                 data={
                     'ms_id':MSID,
                     'ms_payload':cleaned_data
@@ -2328,7 +2193,7 @@ def loantype_edit(request,pk):
                 response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
                 if response['status_code'] == 0:
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/loantype')
+                    return redirect('loantype')
                 else:
                     # return JsonResponse({'error': 'Failed to save form data'}, status=400)
                     messages.info(request, "Oops..! Application Failed to Submitted..")
@@ -2378,41 +2243,28 @@ def loantype_delete(request,pk):
 def collateraltype_create(request):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-        data = {'ms_id': MSID,'ms_payload': {}}
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-        form=CollateraltypeForm(company_choice=company_records)
-        MSID= get_service_plan('view collateraltype')
+        company_id = request.session.get('company_id')
+        form=CollateraltypeForm()
+        MSID= get_service_plan('view collateraltype') # view_collateraltype
         if MSID is None:
             print('MISID not found')
-   
-        data={
+        data = {
             'ms_id':MSID,
-            'ms_payload':{}
+            'ms_payload':{'company_id':company_id}
         }
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         master_view = response['data']
 
         if request.method == "POST":
-            form = CollateraltypeForm(request.POST,company_choice=company_records)
+            form = CollateraltypeForm(request.POST)
             if form.is_valid():
                 MSID= get_service_plan('create collateraltype')
                 if MSID is None:
                     print('MISID not found')      
                 cleaned_data = form.cleaned_data
-                     
-                data={
+                cleaned_data['company_id'] = company_id
+                data = {
                     'ms_id':MSID,
                     'ms_payload':cleaned_data
                 } 
@@ -2421,7 +2273,7 @@ def collateraltype_create(request):
                 print('response',response)
                 if response['status_code'] ==  0:                  
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/collateraltype')
+                    return redirect('collateraltype')
                 else:
                     messages.info(request, "Oops..! Application Failed to Submitted..")
             else:
@@ -2477,14 +2329,14 @@ def collateraltype_view(request,pk):
 def collateraltype_edit(request,pk):
     try:
         token = request.session['user_token']
-       
+        company_id = request.session.get('company_id')
         MSID = get_service_plan('view company')
         if MSID is None:
             print('MSID not found')
 
         data = {
             'ms_id': MSID,
-            'ms_payload': {}
+            'ms_payload': {'company_id':company_id}
         }
 
         json_data = json.dumps(data)
@@ -2510,7 +2362,7 @@ def collateraltype_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = CollateraltypeForm(initial=master_type_edit,company_choice=company_records)
+        form = CollateraltypeForm(initial=master_type_edit)
 
         MSID= get_service_plan('view collateraltype')
         if MSID is None:
@@ -2530,10 +2382,11 @@ def collateraltype_edit(request,pk):
             MSID= get_service_plan('update collateraltype')
             if MSID is None:
                 print('MISID not found')
-            form = CollateraltypeForm(request.POST,company_choice=company_records)
+            form = CollateraltypeForm(request.POST)
             if form.is_valid():
                 cleaned_data = form.cleaned_data          
                 cleaned_data['collateraltype_id'] = pk    
+                cleaned_data['company_id'] = company_id
                    
                 data={
                     'ms_id':MSID,
@@ -2714,7 +2567,7 @@ def collaterals_view(request,pk):
 def collaterals_edit(request,pk):
     try:
         token = request.session['user_token']
-       
+        company_id = request.session.get('company_id')
         MSID = get_service_plan('view company')
         if MSID is None:
             print('MSID not found')
@@ -2882,36 +2735,25 @@ def collaterals_delete(request,pk):
 def currency_create(request):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {'ms_id': MSID,'ms_payload': {}}
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-        form = CurrencyForm(company_choice=company_records)
+        company_id = request.session.get('company_id')
+        
+        form = CurrencyForm()
         MSID = get_service_plan('view currency')
         if MSID is None:
             print('MISID not found')
-        data = {'ms_id':MSID,'ms_payload':{}}
+        data = {'ms_id':MSID,'ms_payload':{'company_id':company_id}}
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         master_view = response['data']
 
         if request.method == "POST":
-            form = CurrencyForm(request.POST,company_choice=company_records)
+            form = CurrencyForm(request.POST)
             if form.is_valid():
                 MSID = get_service_plan('create currency')
                 if MSID is None:
                     print('MISID not found')      
                 cleaned_data = form.cleaned_data  
+                cleaned_data['company_id'] = company_id
                 data = {'ms_id':MSID, 'ms_payload':cleaned_data} 
                 json_data = json.dumps(data)
                 response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
@@ -2972,25 +2814,9 @@ def currency_view(request,pk):
 def currency_edit(request,pk):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-        MSID= get_service_plan('view currency')
+        company_id = request.session.get('company_id')
+        
+        MSID = get_service_plan('view currency')
         if MSID is None:
             print('MISID not found')
         payload_form = {
@@ -3005,14 +2831,13 @@ def currency_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = CurrencyForm(initial=master_type_edit,company_choice=company_records)
+        form = CurrencyForm(initial=master_type_edit)
 
         MSID= get_service_plan('view currency')
         if MSID is None:
                 print('MISID not found')
-        payload_form = {       
-        }
-        data={
+        payload_form = {'company_id':company_id }
+        data = {
             'ms_id':MSID,
             'ms_payload':payload_form
         }
@@ -3025,9 +2850,10 @@ def currency_edit(request,pk):
             MSID= get_service_plan('update currency')
             if MSID is None:
                 print('MISID not found')
-            form = CurrencyForm(request.POST,company_choice=company_records)
+            form = CurrencyForm(request.POST)
             if form.is_valid():
-                cleaned_data = form.cleaned_data          
+                cleaned_data = form.cleaned_data  
+                cleaned_data['company_id'] = company_id  
                 cleaned_data['currency_id'] = pk    
                    
                 data={
@@ -3083,46 +2909,27 @@ def currency_delete(request,pk):
 def paymentmethod_create(request):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-        form=PaymentmethodForm(company_choice=company_records)
-        MSID= get_service_plan('view paymentmethod')
+        company_id = request.session.get('company_id')
+        
+        form = PaymentmethodForm()
+        MSID = get_service_plan('view paymentmethod') # view_paymentmethod
         if MSID is None:
             print('MISID not found')
-   
-        data={
-            'ms_id':MSID,
-            'ms_payload':{}
-        }
+        data = {'ms_id':MSID,'ms_payload':{'company_id':company_id}}
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         master_view = response['data']
 
         if request.method == "POST":
-            form = PaymentmethodForm(request.POST,company_choice=company_records)
+            form = PaymentmethodForm(request.POST)
             if form.is_valid():
-                MSID= get_service_plan('create paymentmethod')
+                MSID = get_service_plan('create paymentmethod') # create paymentmethod
                 if MSID is None:
                     print('MISID not found')      
                 cleaned_data = form.cleaned_data
+                cleaned_data['company_id'] = company_id
                      
-                data={
+                data = {
                     'ms_id':MSID,
                     'ms_payload':cleaned_data
                 } 
@@ -3131,7 +2938,7 @@ def paymentmethod_create(request):
                 print('response',response)
                 if response['status_code'] ==  0:                  
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/paymentmethod')
+                    return redirect('paymentmethod')
                 else:
                     messages.info(request, "Oops..! Application Failed to Submitted..")
             else:
@@ -3187,25 +2994,8 @@ def paymentmethod_view(request,pk):
 def paymentmethod_edit(request,pk):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {
-            'ms_id': MSID,
-            'ms_payload': {}
-        }
-
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-        MSID= get_service_plan('view paymentmethod')
+        company_id = request.session.get('company_id')
+        MSID = get_service_plan('view paymentmethod')
         if MSID is None:
             print('MISID not found')
         payload_form = {
@@ -3220,13 +3010,12 @@ def paymentmethod_edit(request,pk):
         print('data',response['data'])
         master_type_edit = response['data'][0]
         
-        form = PaymentmethodForm(initial=master_type_edit,company_choice=company_records)
+        form = PaymentmethodForm(initial=master_type_edit)
 
-        MSID= get_service_plan('view paymentmethod')
+        MSID = get_service_plan('view paymentmethod') # view_paymentmethod
         if MSID is None:
                 print('MISID not found')
-        payload_form = {       
-        }
+        payload_form = {'company_id':company_id}
         data={
             'ms_id':MSID,
             'ms_payload':payload_form
@@ -3240,10 +3029,11 @@ def paymentmethod_edit(request,pk):
             MSID= get_service_plan('update paymentmethod')
             if MSID is None:
                 print('MISID not found')
-            form = PaymentmethodForm(request.POST,company_choice=company_records)
+            form = PaymentmethodForm(request.POST)
             if form.is_valid():
                 cleaned_data = form.cleaned_data          
                 cleaned_data['paymentmethod_id'] = pk    
+                cleaned_data['company_id'] = company_id
                    
                 data={
                     'ms_id':MSID,
@@ -3253,7 +3043,7 @@ def paymentmethod_edit(request,pk):
                 response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
                 if response['status_code'] == 0:
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/paymentmethod')
+                    return redirect('paymentmethod')
                 else:
                     # return JsonResponse({'error': 'Failed to save form data'}, status=400)
                     messages.info(request, "Oops..! Application Failed to Submitted..")
@@ -3299,25 +3089,12 @@ def bankaccount_create(request):
     try:
         token = request.session['user_token']
 
-        # getting company
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-        data = {'ms_id': MSID,'ms_payload': {}}
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-        if response['status_code'] == 1:
-            return render(request,'error.html',{'error':str(response['data'])})
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-
-        form = BankaccountForm(company_choice=company_records)
+        company_id = request.session.get('company_id')
+        form = BankaccountForm()
         MSID = get_service_plan('view bank account')
         if MSID is None:
             print('MISID not found')
-        data={'ms_id':MSID,'ms_payload':{}}
+        data={'ms_id':MSID,'ms_payload':{'company_id':company_id}}
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
         if response['status_code'] == 1:
@@ -3325,19 +3102,19 @@ def bankaccount_create(request):
         master_view = response['data']
 
         if request.method == "POST":
-            form = BankaccountForm(request.POST,company_choice=company_records)
+            form = BankaccountForm(request.POST)
             if form.is_valid():
                 MSID = get_service_plan('create bank account')
                 if MSID is None:
                     print('MISID not found')      
                 cleaned_data = form.cleaned_data
-                     
+                cleaned_data ['company_id'] = company_id
                 data={'ms_id':MSID,'ms_payload':cleaned_data} 
                 json_data = json.dumps(data)
                 response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
                 if response['status_code'] ==  0:                  
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/bankaccount')
+                    return redirect('bankaccount')
                 else:
                     messages.info(request, "Oops..! Application Failed to Submitted..")
             else:
@@ -3387,22 +3164,8 @@ def bankaccount_view(request,pk):
 def bankaccount_edit(request,pk):
     try:
         token = request.session['user_token']
-       
-        MSID = get_service_plan('view company')
-        if MSID is None:
-            print('MSID not found')
-
-        data = {'ms_id': MSID,'ms_payload': {}}
-        json_data = json.dumps(data)
-        response = call_post_method_with_token_v2(BASEURL, ENDPOINT, json_data, token)
-        if response['status_code'] == 1:
-            return render(request,'error.html',{'error':str(response['data'])})
-        # Check if the response contains data
-        if 'data' in response:
-            company_records = response['data']
-        else:
-            print('Data not found in response')
-
+        company_id = request.session.get('company_id')
+        
         MSID = get_service_plan('view bank account')
         if MSID is None:
             print('MISID not found')
@@ -3414,12 +3177,12 @@ def bankaccount_edit(request,pk):
             return render(request,'error.html',{'error':str(response['data'])})
         master_type_edit = response['data'][0]
  
-        form = BankaccountForm(initial=master_type_edit,company_choice=company_records)
+        form = BankaccountForm(initial=master_type_edit)
 
         MSID = get_service_plan('view bank account')
         if MSID is None:
             print('MISID not found')
-        payload_form = {}
+        payload_form = {'company_id':company_id}
         data = {'ms_id':MSID,'ms_payload':payload_form}
         json_data = json.dumps(data)
         response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
@@ -3431,16 +3194,17 @@ def bankaccount_edit(request,pk):
             MSID= get_service_plan('update bank account')
             if MSID is None:
                 print('MISID not found')
-            form = BankaccountForm(request.POST,company_choice=company_records)
+            form = BankaccountForm(request.POST)
             if form.is_valid():
                 cleaned_data = form.cleaned_data          
                 cleaned_data['bank_id'] = pk    
+                cleaned_data['company_id'] = company_id
                 data = {'ms_id':MSID,'ms_payload':cleaned_data}
                 json_data = json.dumps(data)
                 response = call_post_method_with_token_v2(BASEURL,ENDPOINT,json_data,token)
                 if response['status_code'] == 0:
                     messages.info(request, "Well Done..! Application Submitted..")
-                    return redirect('/bankaccount')
+                    return redirect('bankaccount')
                 else:
                     # return JsonResponse({'error': 'Failed to save form data'}, status=400)
                     messages.info(request, "Oops..! Application Failed to Submitted..")
