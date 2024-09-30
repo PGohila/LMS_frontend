@@ -1,0 +1,126 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block body_block %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .header-table {
+        margin-bottom: 20px;
+    }
+    .header-table td {
+        border: none;
+        padding: 5px 10px;
+    }
+    .button-container {
+        text-align: right;
+    }
+    .button {
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+    .button:hover {
+        background-color: #45a049;
+    }
+    .total-row {
+        font-weight: bold;
+    }
+</style>
+</head>
+<h4>Repayment Schedule</h4>
+<div class="card p-3 mt-3">
+
+
+<!-- Loan Header Information -->
+<table class="header-table">
+    <tr>
+        <td><strong>Loan ID:</strong> {{loan_data.loan_id}}</td>
+        <td><strong>Customer Name:</strong> {{loan_data.loanapp_id.customer_id.firstname}}</td>
+    </tr>
+    <tr>
+        <td><strong>Loan Amount:</strong> ${{loan_data.loan_amount}}</td>
+        <td><strong>Interest Rate:</strong> {{loan_data.interest_rate}}%</td>
+    </tr>
+    <tr>
+        <td><strong>Tenure:</strong> {{loan_data.tenure}} {{loan_data.loanapp_id.tenure_type}}</td>
+        <td><strong>Loan Type:</strong> {{loan_data.loanapp_id.loantype.loantype}}</td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>Application Status:</strong> {{loan_data.loanapp_id.application_status}}</td>
+    </tr>
+</table>
+
+<!-- Payment Schedule Table -->
+<table>
+    <tr>
+        <th>Schedule ID</th>
+        <th>Payment Date</th>
+        <th>Amount Due</th>
+        <th>Interest Amount</th>
+        <th>Amount Paid</th>
+        <th>Balance</th>
+        <th>Payment Status</th>
+        <th>Payment Method</th>
+        <th>Transaction ID</th>
+    </tr>
+    {% for data in schedules %}
+    <tr>
+        <td>{{data.schedule_id}}</td>
+        <td>{{data.repayment_date}}</td>
+        <td>${{data.instalment_amount}}</td>
+        <td>${{data.interest_amount}}</td>
+        <td>${{data.paid_amount}}</td>
+        <td>${{data.remaining_balance}}</td>
+        <td>{{data.repayment_status}}</td>
+        <td>{% if data.payment_method == None %} - {% else %} {{ data.payment_method }} {% endif %}</td>
+        <td>{% if data.transaction_id == None %} - {% else %} {{ data.transaction_id }} {% endif %}</td>
+    </tr>
+    {% endfor %}
+    
+</table>
+
+<!-- Summary Information -->
+<table class="header-table">
+    <tr>
+        <td><strong>Total Amount Due:</strong> ${{total_installment_amount|floatformat:2}}</td>
+        <td><strong>Total Amount Paid:</strong> ${{total_paid_amount|floatformat:2}}</td>
+    </tr>
+    <tr>
+        <td><strong>Next Payment Due:</strong> DD-MM-YYYY</td>
+        <td><strong>Next Payment Amount:</strong> $500</td>
+    </tr>
+    <tr>
+        <td><strong>Overdue Amount:</strong> $0</td>
+    
+    </tr>
+    
+</table>
+
+<!-- Action Buttons -->
+<div class="button-container">
+    <!-- <button class="button">Make Payment</button> -->
+    <button class="button">Download Schedule</button>
+</div>
+</div>
+{% endblock %}

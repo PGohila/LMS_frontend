@@ -1,0 +1,29 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block body_block %}
+<form method="post">
+    {% csrf_token %}
+<div class="card col-md-12 p-3">
+    <div style="display: flex; align-items: center;">
+    <!-- <h5 style="margin-right: 20px;">Customer Details</h5> -->
+    <button type="submit" class="btn btn-primary" name="verifying" value="Verified">Verified</button>
+</div>
+    <div style="border: 2;">
+    <div class="row">
+        <div class="col-md-6 mt-2">
+            <h6>&nbsp;&nbsp;Customer Name: {{customer_data.firstname}}</h6>
+        </div>
+        <div class="col-md-6 mt-2">
+            <h6>&nbsp;&nbsp;&nbsp;&nbsp;Customer ID: {{customer_data.customer_id}}</h6>
+        </div>
+    </div>
+</div>
+    {% for data in documents %}
+    <div class="col-md-12 px-3 py-3">
+        <h5><strong>{{ data.document_type.type_name }}</strong></h5>  <input type="checkbox" value="{{data.id}}" name="customerdoc" {% if data.verified == True %} checked {% else %} unchecked {% endif %}> &nbsp;
+        <a href="http://127.0.0.1:9000/{{ data.documentfile }}" target="_blank">{{ data.documentfile }}</a></div>
+           
+{% endfor %}
+</div>
+</form>
+{% endblock %}

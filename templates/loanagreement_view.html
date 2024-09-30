@@ -1,0 +1,25 @@
+
+{% extends 'base.html' %} 
+{% load static %}
+{% block body_block %}
+<div class="card p-3 mt-3">
+    <h5>LOAN AGREEMENT</h5>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+     <div class="row">
+        {% for data in form %}
+        <div class="col-md-12 mb-3">
+          <strong>{{data.label_tag}}</strong>
+          {{ data }}
+        </div>
+        {% endfor %}
+      </div>
+      {% if not view %}
+      <br>
+      <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
+      {% endif %}
+    </form>
+</div>
+
+    {% endblock %}

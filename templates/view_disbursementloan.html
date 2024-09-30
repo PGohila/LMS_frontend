@@ -1,0 +1,52 @@
+
+{% extends 'base.html' %} 
+{% load static %}
+{% block body_block %}
+    <style>
+        .no-wrap {
+        white-space: nowrap;
+    }
+    </style>
+<h4>Disbursements and Processing Loans</h4>
+<div class="card p-3 mt-3">
+    <div class="table-responsive  mt-3">
+        <table id="tableID" class="display">
+            <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                <tr class="no-wrap">
+                    <th>Company</th>
+                    <th>Loan Application</th>
+                    <th>Customer id</th>
+                    <th>Loan Amount</th>
+                    <th>Interest Rate</th>
+                    <th>Tenure</th>
+                    <th>Status</th>
+                    <th>Action</th>
+             
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in loan_details %}
+                <tr class="no-wrap">
+                    <td>{{data.company.name}}</td>
+                    <td>{{data.application_id}}</td>
+                    <td>{{data.customer_id.customer_id}}</td>
+                    <td>{{data.loan_amount}}</td>
+                    <td>{{data.interest_rate}}</td>
+                    <td>{{data.tenure}}</td>
+             
+                    <td>{%if agreement_status == Active %} <span class="badge text-bg-success">Active</span>{% else %}<span class="badge text-bg-danger">Terminated</span>{% endif %}</td>
+                    {% if data.id %}
+                    <td>
+                        <a href="{% url 'view_repaymentschedules' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class='fa fa-edit'></i> Schedule</a>
+
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+ {% endblock %}

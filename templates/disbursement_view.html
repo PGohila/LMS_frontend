@@ -1,0 +1,49 @@
+
+{% extends 'base.html' %} 
+{% load static %}
+{% block body_block %}
+<div class="main-header">
+  
+</div>
+<div class="card p-3 mt-3">
+    <h5>PENDING DISBURSEMENT</h5>
+
+   <div class="table-responsive  mt-3">
+       <table id="tableID" class="display">
+           <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+               <tr>
+            
+                    <th>Loan ID </th>
+                    <th>Loanapp ID</th>
+                    <th>Customer ID</th>
+                    <th>Loan Amount</th>
+                    <th>Interest Rate</th>
+                    <th>Tenure</th>
+                    <th>Borrower</th>
+                   <th>Action</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for data in approved_loans %}
+               <tr>
+             
+                    <td>{{data.loan_id}}</td>
+                    <td>{{data.loanapp_id.application_id}}</td>
+                    <td>{{data.loanapp_id.customer_id.customer_id}}</td>
+                    <td>{{data.loan_amount}}</td>
+                    <td>{{data.interest_rate}}</td>
+                    <td>{{data.loanapp_id.tenure}} {{data.loanapp_id.tenure_type}}</td>
+                    <td>{{data.borrower.firstname}}</td>
+                   <td>
+                       <a href="{% url 'disbursement' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class='fa fa-edit'></i></a>
+                       
+                   </td>
+               </tr>
+               {% endfor %}
+           </tbody>
+       </table>
+   </div>
+</div>
+
+
+{% endblock %}

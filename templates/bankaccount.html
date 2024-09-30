@@ -1,0 +1,75 @@
+
+{% extends 'base.html' %} 
+ {% block body_block %}
+        <div class="col-md-12">
+    <div class="card p-3" >
+        <div class="main-header">
+            <h4>
+               Bankaccount
+               {% if view %}
+               view
+               {% elif edit %}
+               Edit
+               {% endif %}
+
+             </h4>
+         </div><hr>
+         <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+         <div class="row">
+            {% for data in form %}
+            <div class="col-md-12 mb-3">
+                {{data.label_tag}}
+              {{ data }}
+            </div>
+            {% endfor %}
+          </div>
+          {% if not view %}
+          <br>
+          <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
+          {% endif %}
+        </form>
+    </div>
+  </div>
+<div class="card p-3 mt-3">
+    <div class="table-responsive  mt-3">
+        <table id="tableID" class="display">
+            <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                <tr style="white-space: nowrap;">
+                    <th>Company</th>
+                    <th>Account number</th>
+                    <th>Account holder name</th>
+                    <th>Bank name</th>
+                    <th>Branch</th>
+                    <th>NRFC number</th>
+                    <th>Swift code</th>
+                    <th>IFSC code</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in records %}
+                <tr style="white-space: nowrap;">
+                    <td>{{data.company}}</td>
+                    <td>{{data.account_number}}</td>
+                    <td>{{data.account_holder_name}}</td>
+                    <td>{{data.bank_name}}</td>
+                    <td>{{data.branch}}</td>
+                    <td>{{data.nrfc_number}}</td>
+                    <td>{{data.swift_code}}</td>
+                    <td>{{data.ifsc_code}}</td>
+                    {% if data.id %}
+                    <td>
+                        <a href="{% url 'bankaccount_edit' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class='fa fa-edit'></i></a>
+                        <a href="{% url 'bankaccount_delete' data.id %}"><span data-toggle="tooltip" title="Delete" style="color: black;"><i class='fa fa-remove' onclick="alert('You want to Delete this Item..?')"></i></a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+ {% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Error Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat');
+        /* Above Link Google Font  */
+        body {
+          background-color:#7727f7;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .content-center {
+          text-align:center;
+          color:white;
+          margin-top:20%;
+        }
+        .error {
+          font-size:100px;
+          margin-bottom:1px;
+        
+        }
+        .content-center p {
+          font-weight:bold;
+        }
+        .content-center button {
+          border:1px solid white;
+          padding:10px;
+          text-align:center;
+          font-family: 'Montserrat', sans-serif;
+          background: #FF512F;  /* fallback for old browsers */
+          background: -webkit-linear-gradient(to right, #F09819, #FF512F);  
+          /* Chrome 10-25, Safari   5.1-6 */
+          background: linear-gradient(to right, #F09819, #FF512F);
+          /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+          color:white;
+          font-weight: bold;
+          cursor:pointer;
+          margin-top:20px;
+        }
+
+        .text {
+          color: black;
+      }
+        </style>
+        
+</head>
+<body>
+    <div class="content-center">
+        <h2 class="error">404</h2>
+        <p>PAGE NOT FOUND</p>
+        <p>It looks like nothing was found at this location.</p>
+        <p class="text" style="color: black;">{{error}}</p>
+        <a href="/"><button>BACK TO HOME</button></a>
+      </div>
+{% comment %} <title>Page Not Found</title>
+<img src="https://i.ibb.co/W6tgcKQ/softcodeon.gif">
+<h1 class="error-text">Whoops, We can't seem to find the resource you're looking for.</h1>
+<p class="text">{{error}},</p>
+<div class="btn1">
+<a class="error" href="#">Go to Homepage</a> {% endcomment %}
+</div>
+
+</body>
+</html>

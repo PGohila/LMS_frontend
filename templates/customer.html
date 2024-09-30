@@ -1,0 +1,85 @@
+
+{% extends 'base.html' %} 
+ {% block body_block %}
+        <div class="col-md-12">
+    <div class="card p-3" >
+        <div class="main-header">
+            <h4>
+               CUSTOMER
+               {% if view %}
+               view
+               {% elif edit %}
+               Edit
+               {% endif %}
+
+             </h4>
+         </div><hr>
+         <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+         <div class="row">
+            {% for data in form %}
+            <div class="col-md-6 mb-3">
+                <strong>{{data.label_tag}}</strong>
+              {{ data }}
+            </div>
+            {% endfor %}
+          </div>
+          {% if not view %}
+          <br>
+          <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
+          {% endif %}
+        </form>
+    </div>
+  </div>
+<div class="card p-3 mt-3">
+    <div class="table-responsive  mt-3">
+        <table id="tableID" class="display">
+            <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                <tr style="white-space: nowrap;"> 
+                    <th>company id</th>
+                    <th>customer id</th>
+                    <th>firstname</th>
+                    <th>lastname</th>
+                    <th>email</th>
+                    <th>phone number</th>
+                    <th>address</th>
+                    <th>dateofbirth</th>
+                    <th>customer income</th>
+                    <th>identification type</th>
+                    <th>identification number</th>
+                    <th>credit score</th>
+                    <th>expiry date</th>
+                    <th>is active</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in records %}
+                <tr style="white-space: nowrap;">
+                    <td>{{data.company_id.name}}</td>
+                    <td>{{data.customer_id}}</td>
+                    <td>{{data.firstname}}</td>
+                    <td>{{data.lastname}}</td>
+                    <td>{{data.email}}</td>
+                    <td>{{data.phone_number}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.dateofbirth}}</td>
+                    <td>{{data.customer_income}}</td>
+                    <td>{{data.identification_type.type_name}}</td>
+                    <td>{{data.identification_number}}</td>
+                    <td>{{data.credit_score}}</td>
+                    <td>{{data.expiry_date}}</td>
+                    <td>{{data.is_active}}</td>
+                    <td>
+                        <a href="{% url 'customer_edit' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class='fa fa-edit'></i></a>
+                        <a href="{% url 'customer_delete' data.id %}"><span data-toggle="tooltip" title="Delete" style="color: black;"><i class='fa fa-remove' onclick="alert('You want to Delete this Item..?')"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+ {% endblock %}

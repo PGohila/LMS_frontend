@@ -1,0 +1,71 @@
+
+{% extends 'base.html' %} 
+ {% block body_block %}
+        <div class="col-md-12">
+    <div class="card p-3" >
+        <div class="main-header">
+            <h4>
+               CUSTOMER DOCUMENTS
+               {% if view %}
+               view
+               {% elif edit %}
+               Edit
+               {% endif %}
+
+             </h4>
+         </div><hr>
+         <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+         <div class="row">
+            {% for data in form %}
+            <div class="col-md-12 mb-3">
+                <strong>{{data.label_tag}}</strong>
+              {{ data }}
+            </div>
+            {% endfor %}
+          </div>
+          {% if not view %}
+          <br>
+          <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
+          {% endif %}
+        </form>
+    </div>
+  </div>
+<div class="card p-3 mt-3">
+    <div class="table-responsive  mt-3">
+        <table id="tableID" class="display">
+            <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                <tr>
+                    <th>company</th>
+                    <th>documentid</th>
+                    <th>document type</th>
+                    <th>uploaded at</th>
+                    <th>verified</th>
+                    <th>verified by</th>
+                    <th>verified at</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in records %}
+                <tr>
+                    <td>{{data.company}}</td>
+                    <td>{{data.documentid}}</td>
+                    <td>{{data.document_type.type_name}}</td>
+                    <td>{{data.uploaded_at}}</td>
+                    <td>{% if data.verified == True %} <span class="custom-badge status-green">verified</span> {% else %} <span class="custom-badge status-red">Not</span> {% endif %}</td>
+                    <td>{{data.verified_by}}</td>
+                    <td>{{data.verified_at}}</td>
+                    <td>
+                        <a href="{% url 'customerdocuments_edit' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class='fa fa-edit'></i></a>
+                        <a href="{% url 'customerdocuments_delete' data.id %}"><span data-toggle="tooltip" title="Delete" style="color: black;"><i class='fa fa-remove' onclick="alert('You want to Delete this Item..?')"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+ {% endblock %}

@@ -1,0 +1,71 @@
+
+    {% extends 'base.html' %} 
+ {% block body_block %}
+        <div class="col-md-12">
+    <div class="card p-3" >
+        <div class="main-header">
+            <h4>
+               Customerfeedback
+               {% if view %}
+               view
+               {% elif edit %}
+               Edit
+               {% endif %}
+
+             </h4>
+         </div><hr>
+         <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+         <div class="row">
+            {% for data in form %}
+            <div class="col-md-12 mb-3">
+                {{data.label_tag}}
+              {{ data }}
+            </div>
+            {% endfor %}
+          </div>
+          {% if not view %}
+          <br>
+          <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
+          {% endif %}
+        </form>
+    </div>
+  </div>
+<div class="card p-3 mt-3">
+    <div class="table-responsive  mt-3">
+        <table id="tableID" class="display">
+            <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                <tr>
+<th>feedback id</th>
+<th>customer id</th>
+<th>feedback date</th>
+<th>feedback type</th>
+<th>subject</th>
+<th>description</th>
+<th>feedback status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in records %}
+                <tr>
+<td>{{data.feedback_id}}</td>
+<td>{{data.customer_id}}</td>
+<td>{{data.feedback_date}}</td>
+<td>{{data.feedback_type}}</td>
+<td>{{data.subject}}</td>
+<td>{{data.description}}</td>
+<td>{{data.feedback_status}}</td>
+                    <td>
+                        <a href="{% url 'customerfeedback_edit' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class='fa fa-edit'></i></a>
+                        <a href="{% url 'customerfeedback_delete' data.id %}"><span data-toggle="tooltip" title="Delete" style="color: black;"><i class='fa fa-remove' onclick="alert('You want to Delete this Item..?')"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+ {% endblock %}
