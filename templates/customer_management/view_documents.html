@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+<style>
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling for mobile */
+}
+.table th, .table td {
+    white-space: nowrap;
+}
+
+</style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Customer Document List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">List</li>
+          <li class="breadcrumb-item active">Customer Document List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+        
+                <!-- Add a wrapper with overflow control -->
+                <div class="table-responsive">
+                    <table class="table datatable">
+                        <thead>
+                            <tr style="white-space: nowrap;"> 
+                                <th scope="col">Is active</th>
+                                <th scope="col">Customer id</th>
+                                <th scope="col">Document ID</th>
+                                <th scope="col">Document Type</th>
+                                <th scope="col">File</th>
+                                
+                                <!-- <th scope="col">Action</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in customer_records %}
+                                <tr style="white-space: nowrap;">
+                                    <td>{%if data.is_active == True %}<span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> </span>{% else %}<span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i></span>{% endif %}</td>
+                                    <td>{{data.customer_id.customer_id}}</td>
+                                    <td>{{data.documentid}}</td>
+                                    <td>{{data.document_type.type_name}}</td>
+                                    <td> <a href="{{BASEURL}}{{ data.documentfile }}" target="_blank">{{ data.documentfile }}</a></td>
+                                    
+                                    <!-- <td>
+                                        <a href="#"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                                        <a href="{% url 'customer_edit' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-edit"></i></a>
+                                        <a href="{% url 'customer_delete' data.id %}"><span data-toggle="tooltip" title="Delete" style="color: black;"><i class="fa fa-remove" onclick="alert('You want to Delete this Item..?')"></i></a>
+                                    </td> -->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Document Verification</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Table</li>
+          <li class="breadcrumb-item active">Application List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="nav-link active" id="nav-active-tab" data-bs-toggle="tab" data-bs-target="#nav-active" type="button" role="tab" aria-controls="nav-active" aria-selected="true">Active Applications</button>
+                  <button class="nav-link" id="nav-verified-tab" data-bs-toggle="tab" data-bs-target="#nav-verified" type="button" role="tab" aria-controls="nav-verified" aria-selected="false">Verified</button>
+                  <button class="nav-link" id="nav-unverified-tab" data-bs-toggle="tab" data-bs-target="#nav-unverified" type="button" role="tab" aria-controls="nav-unverified" aria-selected="false">Unverified</button>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <!-- ==================== active applications ==================== -->
+                <div class="tab-pane fade show active" id="nav-active" role="tabpanel" aria-labelledby="nav-active-tab">
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table datatable">
+                      <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                          <tr>
+                              <th scope="col">Active</th>
+                              <th scope="col">Application ID</th>
+                              <th scope="col">Customer ID</th>
+                              <th scope="col">Loan Type</th>
+                              <th scope="col">Loan Amount</th>
+                              <th scope="col">Applied At</th>
+                              <th scope="col">Verification Status</th>
+                              <th scope="col">View Document</th>
+                            
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for data in active_applications %}
+                          <tr>
+                              <td scope="row">{% if data.is_active == True %} <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i></span> {% else %} <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i> </span>{% endif %}</td>
+                              <td>{{data.application_id}}</td>
+                              <td>{{data.customer_id.customer_id}}</td>
+                              <td>{{data.loantype.loantype}}</td>
+                              <td>{{data.loan_amount}}</td>
+                              <td>{{data.applied_at}}</td>
+                              <td >{% if data.document_verified == True %} <span class="badge bg-success"><i class="bi bi-check-circle me-1">Verified</i></span> {% else %} <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i>Unverified </span>{% endif %}</td>
+                              {% if data.id %}
+                              <td>
+                                  <a href="{% url 'verify_documents' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                              </td>
+                              {% endif %}
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+      
+                  </div>
+                </div>
+                <!-- ================= verified applications ================== -->
+                <div class="tab-pane fade" id="nav-verified" role="tabpanel" aria-labelledby="nav-verified-tab">
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table datatable">
+                      <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                          <tr>
+                              <th scope="col">Active</th>
+                              <th scope="col">Application ID</th>
+                              <th scope="col">Customer ID</th>
+                              <th scope="col">Loan Type</th>
+                              <th scope="col">Loan Amount</th>
+                              <th scope="col">applied_at</th>
+                              <th scope="col">Verification Status</th>
+                              <th scope="col">View Document</th>
+                            
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for data in verified_applications %}
+                          <tr>
+                            <td scope="row">{% if data.is_active == True %} <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i></span> {% else %} <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i> </span>{% endif %}</td>
+                            <td>{{data.application_id}}</td>
+                              <td>{{data.customer_id.customer_id}}</td>
+                              <td>{{data.loantype.loantype}}</td>
+                              <td>{{data.loan_amount}}</td>
+                              <td>{{data.applied_at}}</td>
+                              <td >{% if data.document_verified == True %} <span class="badge bg-success"><i class="bi bi-check-circle me-1">Verified</i></span> {% else %} <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i>Unverified </span>{% endif %}</td>
+
+                              {% if data.id %}
+                              <td>
+                                  <a href="{% url 'verify_documents' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                              </td>
+                              {% endif %}
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+      
+                  </div>
+                </div>
+                <!-- ======================= unverified applications ========================= -->
+                <div class="tab-pane fade" id="nav-unverified" role="tabpanel" aria-labelledby="nav-unverified-tab">
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table datatable">
+                      <thead style="background-color: rgb(231, 252, 231); " class="mt-3">
+                          <tr>
+                              <th scope="col">Active</th>
+                              <th scope="col">Application ID</th>
+                              <th scope="col">Customer ID</th>
+                              <th scope="col">Loan Type</th>
+                              <th scope="col">Loan Amount</th>
+                              <th scope="col">applied_at</th>
+                              <th scope="col">Verification Status</th>
+                              <th scope="col">View Document</th>
+                            
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for data in unverified_applications %}
+                          <tr>
+                            <td scope="row">{% if data.is_active == True %} <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i></span> {% else %} <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i> </span>{% endif %}</td>
+                            <td>{{data.application_id}}</td>
+                              <td>{{data.customer_id.customer_id}}</td>
+                              <td>{{data.loantype.loantype}}</td>
+                              <td>{{data.loan_amount}}</td>
+                              <td>{{data.applied_at}}</td>
+                              <td >{% if data.document_verified == True %} <span class="badge bg-success"><i class="bi bi-check-circle me-1">Verified</i></span> {% else %} <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i>Unverified </span>{% endif %}</td>
+
+                              {% if data.id %}
+                              <td>
+                                  <a href="{% url 'verify_documents' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                              </td>
+                              {% endif %}
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+      
+                  </div>
+                </div>
+              </div>
+
+
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

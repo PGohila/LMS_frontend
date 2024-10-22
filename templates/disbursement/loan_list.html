@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<body>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dibursement Request</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Dibursement Request</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Loan ID</th>
+                        <th scope="col">Loan Application ID</th>
+                        <th scope="col">Loan Amount</th>
+                        <th scope="col">Approved Amount</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col" >Action</th>
+                      </tr>
+                </thead>
+                <tbody>
+                    {% for data in records %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter}}</th>
+                            <td>{{ data.loan_id }}</td>
+                            <td>{{ data.loanapp_id.application_id }}</td>
+                            <td>{{ data.loan_amount }}</td>
+                            <td>{{ data.approved_amount}}</td>
+                            <td>{{data.created_at}}</td>
+                            <td>
+                            <a href="{% url 'disbursement' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                             <!-- <a href="{% url 'editagreement' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class='fa fa-edit'></i></a>
+                                <a href="{% url 'loanapplication_delete' data.id %}"><span data-toggle="tooltip" title="Delete" style="color: black;"><i class='fa fa-remove' onclick="alert('You want to Delete this Item..?')"></i></a>  -->
+
+                            </td>
+                        </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

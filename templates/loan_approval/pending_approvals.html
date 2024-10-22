@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<body>
+  <style>
+    .nowrap-text {
+        white-space: nowrap;
+    }
+</style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Pending Application List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Pending Application List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="nav-link active" id="nav-submitted-tab" data-bs-toggle="tab" data-bs-target="#nav-submitted" type="button" role="tab" aria-controls="nav-submitted" aria-selected="true">Submitted Application</button>
+                  <button class="nav-link" id="nav-approved-tab" data-bs-toggle="tab" data-bs-target="#nav-approved" type="button" role="tab" aria-controls="nav-approved" aria-selected="false">Approved Application</button>
+                  <button class="nav-link" id="nav-rejected-tab" data-bs-toggle="tab" data-bs-target="#nav-rejected" type="button" role="tab" aria-controls="nav-rejected" aria-selected="false">Rejected Application</button>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <!-- ====================== Submitted Application ============================== -->
+                <div class="tab-pane fade show active" id="nav-submitted" role="tabpanel" aria-labelledby="nav-submitted-tab">
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table datatable">
+                      <thead>
+                        <tr class="nowrap-text">
+                          <th scope="col">#</th>
+                          <th scope="col">Active</th>
+                          <th scope="col">Application ID</th>
+                          <th scope="col">Customer ID</th>
+                          <th scope="col">Loantype</th>
+                          <th scope="col">Loan Amount</th>
+                          <th scope="col">Document Verification</th>
+                          <th scope="col">Eligibly Status</th>
+                          <th scope="col" >Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for data in active_applications %}
+                        <tr class="nowrap-text">
+                          <th scope="row">{{ forloop.counter}}</th>
+                          <td>{% if data.is_active == True %}<span class="badge bg-success"><i class="bi bi-check-circle me-1"></i></span>{% else %}<span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i> </span>{% endif %}</td>
+                          <td>{{ data.application_id }}</td>
+                          <td>{{ data.customer_id.customer_id }}</td>
+                          <td>{{ data.loantype.loantype }}</td>
+                          <td>{{ data.loan_amount}}</td>
+                          <td>{% if data.document_verified == True %}<span class="badge bg-success"><i class="bi bi-check-circle me-1">Verified</i></span>{% else %}<span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1">Not</i></span>{% endif %}</td>
+                          <td>{{data.is_eligible}}</td>
+                          <td>
+                            <a href="{% url 'loanapproval' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                             
+      
+                          </td>
+                        </tr>
+                        {% endfor %}
+                     
+                     
+                      </tbody>
+                    </table>
+      
+                  </div>
+                </div>
+                <!-- ====================== Approved Application ============================== -->
+                <div class="tab-pane fade" id="nav-approved" role="tabpanel" aria-labelledby="nav-approved-tab">
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table datatable">
+                      <thead>
+                        <tr class="nowrap-text">
+                          <th scope="col">#</th>
+                          <th scope="col">Active</th>
+                          <th scope="col">Application ID</th>
+                          <th scope="col">Customer ID</th>
+                          <th scope="col">Loantype</th>
+                          <th scope="col">Loan Amount</th>
+                          <th scope="col">Document Verification</th>
+                          <th scope="col">Eligibly Status</th>
+                          <th scope="col" >Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for data in approved_applications %}
+                        <tr class="nowrap-text">
+                          <th scope="row">{{ forloop.counter}}</th>
+                          <td>{{data.application_status}}</td>
+                          <td>{{ data.application_id }}</td>
+                          <td>{{ data.customer_id.customer_id }}</td>
+                          <td>{{ data.loantype.loantype }}</td>
+                          <td>{{ data.loan_amount}}</td>
+                          <td>Verified</td>
+                          
+                          <td>{{data.is_eligible}}</td>
+                          <td>
+                            <a href="{% url 'loanapproval' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                             
+      
+                          </td>
+                        </tr>
+                        {% endfor %}
+                     
+                     
+                      </tbody>
+                    </table>
+      
+                  </div>
+                </div>
+                <!-- ====================== Rejected Application ============================== -->
+                <div class="tab-pane fade" id="nav-rejected" role="tabpanel" aria-labelledby="nav-rejected-tab">
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table datatable">
+                      <thead>
+                        <tr class="nowrap-text">
+                          <th scope="col">#</th>
+                          <th scope="col">Active</th>
+                          <th scope="col">Application ID</th>
+                          <th scope="col">Customer ID</th>
+                          <th scope="col">Loantype</th>
+                          <th scope="col">Loan Amount</th>
+                          <th scope="col">Document Verification</th>
+                          <th scope="col">Eligibly Status</th>
+                          <th scope="col" >Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for data in rejected_applications %}
+                        <tr class="nowrap-text">
+                          <th scope="row">{{ forloop.counter}}</th>
+                          <td>{{data.application_status}}</td>
+                          <td>{{ data.application_id }}</td>
+                          <td>{{ data.customer_id.customer_id }}</td>
+                          <td>{{ data.loantype.loantype }}</td>
+                          <td>{{ data.loan_amount}}</td>
+                          <td>Verified</td>
+                          <td>{{data.is_eligible}}</td>
+                          <td>
+                            <a href="{% url 'loanapproval' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a>
+                             
+      
+                          </td>
+                        </tr>
+                        {% endfor %}
+                     
+                     
+                      </tbody>
+                    </table>
+      
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

@@ -130,3 +130,6 @@ STATICFILES_DIRS = [
 
 
 PROJECT_ID = 2
+
+BASEURL = 'http://127.0.0.1:9000/'
+# BASEURL = settings.BASEURL

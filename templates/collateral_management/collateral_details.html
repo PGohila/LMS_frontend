@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+{% load static %}
+<body>
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Collateral</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Collateral</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Application Details</h5>
+              <table style="font-size: 12px; line-height: 20px;">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                        <tbody>
+                          <tr>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Borrower ID:</th>
+                                  <td >{{loanapplication_records.customer_id.customer_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;E-mail:</th>
+                                  <td >{{loanapplication_records.customer_id.email}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Application ID:</th>
+                                  <td >{{loanapplication_records.application_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Loan Amount:</th>
+                                  <td >{{loanapplication_records.loan_amount}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Disbursement Type:</th>
+                                  <td >{{loanapplication_records.disbursement_type}}</td>
+                                </tr>
+                            
+                              </table>
+                            </td>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Borrower Name: </th>
+                                  <td >{{loanapplication_records.customer_id.firstname}} {{loanapplication_records.customer_id.lastname}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Phone:</th>
+                                  <td >{{loanapplication_records.customer_id.phone_number}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">LoanType:</th>
+                                  <td >{{loanapplication_records.loantype.loantype}} <b>({{loanapplication_records.loantype.loantype_id}})</b></td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Tenure:</th>
+                                  <td >{{loanapplication_records.tenure}} {{loanapplication_records.tenure_type}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Loan Purpose:</th>
+                                  <td >{{loanapplication_records.loan_purpose}}</td>
+                                </tr>
+                              
+                              </table>
+                            </td>
+                          </tr>
+       
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+                
+              </table>
+              
+              <div class="col-md-12">
+                      
+                        <h5 class="card-title">Collateral Details </h5>
+                        <form method="post" enctype="multipart/form-data">
+                          {% csrf_token %}
+                   
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="table_Collaterals">
+                                <thead class="thead-light">
+                                    <tr>
+                                   
+                                        <th class="text-center p-3">Collateral ID</th> <!-- Field Labels -->
+                                        <th class="text-center p-3">Collateral Type</th>
+                                        <th class="text-center p-3">Collateral Value</th>
+                                        <th class="text-center p-3">Valuation Date</th>
+                                        <th class="text-center p-3">Collateral Status</th>
+                                        <th class="text-center p-3">Insurance Status</th>
+                                        <th class="text-center p-3">Description</th>
+                                        <th class="text-center p-3">Borrower Signature</th>
+                                        
+                                    </tr>
+                                </thead>
+
+                                <tbody id = "collateral_tbody">
+                                    {% for data in collateral_records %}
+                                    <tr id="row_{{ forloop.counter }}">
+                                    
+                                        <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                            <div class="form-group">
+                                                {{data.collateral_id}}
+                                            </div>
+                                        </td>
+                                        <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                          <div class="form-group">
+                                            {{data.collateral_type.name}}
+                                          </div>
+                                      </td>
+                                      <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                        <div class="form-group">
+                                            {{data.collateral_value}}
+                                        </div>
+                                    </td>
+                                    <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                      <div class="form-group">
+                                        {{data.valuation_date}}
+                                      </div>
+                                  </td>
+                                    
+                                  <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                    <div class="form-group">
+                                        {{data.collateral_status}}
+                                    </div>
+                                </td>
+                                <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                    <div class="form-group">
+                                        {{data.insurance_status}}
+                                    </div>
+                                </td>
+                                <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                    <div class="form-group">
+                                        {{data.description}}
+                                    </div>
+                                </td>
+                                <td class="align-middle p-3">
+                                    <div class="form-group">
+                                        <img src="{% static '{{data.borrower_signature}}' %}" alt="">
+                                    </div>
+                                </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                 
+                                </tbody>
+                            </table>
+                     
+                        </div>
+                      </form>
+              </div>
+               
+              <div class="col-md-12">
+             
+                <h5 class="card-title">Collateral Documents</h5>
+                <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+           
+                    <table class="table table-bordered" id="table_attachment">
+                        <thead class="thead-light">
+                            <tr>
+              
+                                <th class="text-center p-3">Document Name</th> <!-- Field Labels -->
+                                <th>Upload</th>
+                                <th>Description</th>
+                             
+                            </tr>
+                        </thead>
+
+                        <tbody id = "attachment_tbody">
+                            {% for data in collateraldoc_records %}
+                            <tr id="row_{{ forloop.counter }}">
+                                <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                  <div class="form-group">
+                                    {{ data.document_name }}
+                                  </div>
+                              </td>
+                              <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                <div class="form-group">
+                                  <a href="{{BASEURL}}/{{ data.additional_documents }}">{{ data.additional_documents }}</a>
+                                </div>
+                            </td>
+                            
+                          <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                            <div class="form-group">
+                              {{data.description}}
+                            </div>
+                        </td>
+
+                            </tr>
+                            {% endfor %}
+                         
+                        </tbody>
+                    </table>
+             
+                </div>
+              </form>
+      </div>
+                
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    
+  
+  </main><!-- End #main -->
+
+  {% endblock %}
+
+ 

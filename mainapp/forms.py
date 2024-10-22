@@ -1,7 +1,13 @@
 from django import forms 
 
+	
 class CompanyForm(forms.Form):
 	name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
+	phone = forms.CharField( max_length=15,required=True,widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter phone number"}))
+	email = forms.EmailField(required=True,widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "Enter email"}))
+	address = forms.CharField(required=True,widget=forms.Textarea(attrs={"class": "form-control", "rows": 3, "placeholder": "Enter address"}))
+	registration_number = forms.CharField(max_length=50,required=True,widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Registration number"}))
+	incorporation_date = forms.DateField( required=False, widget=forms.DateInput(attrs={"class": "form-control", "type": "date"}))
 	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
 	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 
@@ -14,28 +20,69 @@ class IdentificationtypeForm(forms.Form):
 		super().__init__(*args, **kwargs)
 		
 class CustomerForm(forms.Form):
-	firstname = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
-	lastname = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
-	email = forms.EmailField(required=True, widget=forms.TextInput(attrs={"type": "email","class": "form-control"}))
-	phone_number = forms.CharField(max_length=15, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
-	address = forms.CharField( required=True, widget=forms.Textarea(attrs={"class": "form-control"}))
-	dateofbirth = forms.DateField(required=True, widget=forms.DateInput(attrs={"type": "date","class": "form-control"}))
-	customer_income = forms.FloatField(required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
-	identification_type_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
-	identification_number = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
-	expiry_date = forms.DateField(required=False, widget=forms.DateInput(attrs={"type": "date","class": "form-control"}))
-	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
+    is_active = forms.BooleanField(
+        required=False,
+        label='Active',
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"})
+    )
+    firstname = forms.CharField(
+        max_length=20,
+        required=True,
+        label='First Name',
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    lastname = forms.CharField(
+        max_length=50,
+        required=False,
+        label='Last Name',
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    email = forms.EmailField(
+        required=True,
+        label='Email',
+        widget=forms.TextInput(attrs={"type": "email", "class": "form-control"})
+    )
+    phone_number = forms.CharField(
+        max_length=15,
+        required=True,
+        label='Phone Number',
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    address = forms.CharField(
+        required=True,
+        label='Address',
+        widget=forms.Textarea(attrs={"class": "form-control"})
+    )
+    age = forms.IntegerField(
+        required=True,
+        label='Age',
+        widget=forms.NumberInput(attrs={"class": "form-control"})
+    )
+    dateofbirth = forms.DateField(
+        required=True,
+        label='Date of Birth',
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"})
+    )
+    customer_income = forms.FloatField(
+        required=True,
+        label='Customer Income',
+        widget=forms.NumberInput(attrs={"class": "form-control"})
+    )
+    expiry_date = forms.DateField(
+        required=False,
+        label='Expiry Date',
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"})
+    )
 
-	def __init__(self, *args, **kwargs):
-	
-		identification_type_list = kwargs.pop('identification_type_choice', [])
-		super().__init__(*args, **kwargs)
-		self.fields['identification_type_id'].choices = [(item['id'], item['type_name']) for item in identification_type_list]
+
 
 class CustomerdocumentsForm(forms.Form):
+	is_active = forms.BooleanField(label='Active')
 	customer_id = forms.ChoiceField(choices=[],required=True,label="Customer ID", widget=forms.Select(attrs={"class": "form-control"}))
 	document_type_id = forms.ChoiceField(choices=[],required=True,label="Document Type", widget=forms.Select(attrs={"class": "form-control"}))
 	documentfile = forms.FileField(label='Upload Document')
+	description = forms.CharField( required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
+
 
 	def __init__(self, *args, **kwargs):
 		
@@ -48,19 +95,23 @@ class CustomerdocumentsForm(forms.Form):
 		self.fields['document_type_id'].choices = [(item['id'], item['type_name']) for item in document_type_list]
 
 class LoantypeForm(forms.Form):
-	
+	DISBURSEMENT_BENEFICIARY_CHOICES = [
+        ('pay_self', 'Pay Self'),
+        ('pay_milestone', 'Pay Milestone'),
+    ]
+	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 	loantype = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
 	interest_rate = forms.FloatField(required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
 	loan_teams = forms.IntegerField(required=True,widget=forms.NumberInput(attrs={"class": "form-control"}))
+	disbursement_beneficiary = forms.ChoiceField(choices=DISBURSEMENT_BENEFICIARY_CHOICES, label="Disbursement Beneficiary", widget=forms.Select(attrs={'class': 'form-control'}))
 	min_loan_amt = forms.FloatField(required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
 	max_loan_amt = forms.FloatField(required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
 	eligibility = forms.CharField( required=True, widget=forms.Textarea(attrs={"class": "form-control"}))
 	collateral_required = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 	charges = forms.CharField( required=True, widget=forms.Textarea(attrs={"class": "form-control"}))
-	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
+	
 	def __init__(self, *args, **kwargs):
-		
 		super().__init__(*args, **kwargs)
 		
 
@@ -100,10 +151,12 @@ class LoanapplicationForm(forms.Form):
         ('365', '365 Days Basis'),
         ('other', 'Other Basis'),
     ]
+	DISBURSEMENT_TYPE = [('one_off', 'One-Off'), ('trenches', 'Trenches')]
+	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 	customer_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
 	loantype_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
 	loan_amount = forms.FloatField(required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
-	loan_purpose = forms.CharField( required=True, widget=forms.Textarea(attrs={"class": "form-control"}))
+	disbursement_type = forms.ChoiceField(choices=DISBURSEMENT_TYPE, label="Disbursement Type", widget=forms.Select(attrs={'class': 'form-control'}))
 	interest_rate = forms.FloatField(required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
 	tenure = forms.IntegerField(required=True,widget=forms.NumberInput(attrs={"class": "form-control"}))
 	tenure_type = forms.ChoiceField(choices=TENURE_CHOICES, label="Tenure Type", widget=forms.Select(attrs={'class': 'form-control'}))
@@ -112,29 +165,33 @@ class LoanapplicationForm(forms.Form):
 	repayment_schedule = forms.ChoiceField(choices=REPAYMENT_SCHEDULE, label="Repayment Schedule", widget=forms.Select(attrs={'class': 'form-control'}))
 	repayment_mode = forms.ChoiceField(choices=REPAYMENT_MODE, label="Repayment mode", widget=forms.Select(attrs={'class': 'form-control'}))
 	interest_basics = forms.ChoiceField(choices=INTEREST_BASICS, label="interest basics", widget=forms.Select(attrs={'class': 'form-control'}))
+	loan_purpose = forms.CharField( required=True, widget=forms.Textarea(attrs={"class": "form-control"}))
 	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
-	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
+	
 	def __init__(self, *args, **kwargs):
 		customer_id_list = kwargs.pop('customer_id_choice', [])
 		loantype_list = kwargs.pop('loantype_choice', [])
 		super().__init__(*args, **kwargs)
-		self.fields['customer_id'].choices = [(item['id'], item['customer_id']) for item in customer_id_list]
+		self.fields['customer_id'].choices = [(item['id'], f"{item['customer_id']}({item['firstname']} {item['lastname']})") for item in customer_id_list]
 		self.fields['loantype_id'].choices = [(item['id'], item['loantype']) for item in loantype_list]
 
 class LoanAgreementForm(forms.Form):
-	customer_id = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
-	loan_id = forms.CharField(max_length=20, widget=forms.TextInput(attrs={"class": "form-control"}), required=False)
-	loanapp_id = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={"class": "form-control"}))
-	agreement_terms = forms.CharField(required=False,widget=forms.Textarea(attrs={"class": "form-control"}))
-	borrower_signature = forms.FileField(required=True)
-	lender_signature = forms.FileField(required=True)
+	customer_id = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
+	loan_id = forms.CharField(max_length=20, widget=forms.TextInput(attrs={"class": "form-control"}), required=True)
+	loanapp_id = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
+	agreement_terms = forms.CharField(required=True,widget=forms.Textarea(attrs={"class": "form-control"}))
+	attachment = forms.FileField(required=False, label='Borroewr Signature')
+	attachment1 = forms.FileField(required=False,label='Lander Signature')
 	maturity_date = forms.DateField(required=False, widget=forms.DateTimeInput(attrs={"class": "form-control","type": "date"}))
+	is_active = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 
+
+
+	
 class DisbursementForm(forms.Form):
 	DISBURSEMENT_TYPE = [
-		('Initial', 'Initial'),
-		('Partial', 'Partial'),
-		('Final', 'Final'),
+		('one_off', 'One-Off'), 
+		('trenches', 'Trenches')
 	]
 	DISBURSEMENT_STATUS = [
 		('Completed', 'Completed'),
@@ -187,8 +244,6 @@ class DisbursementForm(forms.Form):
 		if self.loan_application_id:
 			self.fields['loan_application_id'].initial = self.loan_application_id
 	
-
-
 class CollateraltypeForm(forms.Form):
 	CATEGORY = [
 		('Tangible','Tangible'), # tangible is physical asset like own property or own bike etc
@@ -213,25 +268,22 @@ class CollateralsForm(forms.Form):
         ('Insured', 'Insured'),
         ('Not insured', 'Not insured'),
     ]
-	
-	loanapp_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
-	customer_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
 	collateral_type_id = forms.ChoiceField(choices=[],required=True, widget=forms.Select(attrs={"class": "form-control"}))
 	collateral_value = forms.FloatField( required=True, widget=forms.NumberInput(attrs={"class": "form-control"}))
 	valuation_date = forms.DateField(required=True, widget=forms.DateInput(attrs={"type": "date","class": "form-control"}))
-	collateral_status = forms.ChoiceField(choices=COLLATERAL_STATUS, label="Tenure Type", widget=forms.Select(attrs={'class': 'form-control'}))
-	insurance_status = forms.ChoiceField(choices=INSURANCE_STATUS, label="Tenure Type", widget=forms.Select(attrs={'class': 'form-control'}))
-	valuation_report = forms.FileField(label='Valuation Document',required=False)
-	def __init__(self, *args, **kwargs):
+	collateral_status = forms.ChoiceField(choices=COLLATERAL_STATUS, label="Collateral status", widget=forms.Select(attrs={'class': 'form-control'}))
+	insurance_status = forms.ChoiceField(choices=INSURANCE_STATUS, label="Insurance Status", widget=forms.Select(attrs={'class': 'form-control'}))
 	
-		loanapp_id_list = kwargs.pop('loanapp_id_choice', [])
-		customer_id_list = kwargs.pop('customer_id_choice', [])
+	description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control","style": "height: 70px; width: 400px;"}))
+	
+	def __init__(self, *args, **kwargs):
 		collateral_type_list = kwargs.pop('collateral_type_choice', [])
 		super().__init__(*args, **kwargs)
-	
-		self.fields['loanapp_id'].choices = [(item['id'], item['application_id']) for item in loanapp_id_list]
-		self.fields['customer_id'].choices = [(item['id'], item['customer_id']) for item in customer_id_list]
 		self.fields['collateral_type_id'].choices = [(item['id'], item['name']) for item in collateral_type_list]
+
+class CollateralDocumentForm(forms.Form):
+	additional_documents = forms.FileField(label='Additional Document',required=False)
+	discription = forms.CharField(required=False, widget=forms.Textarea(attrs={"class": "form-control"}))
 
 class PaymentmethodForm(forms.Form):
 	method_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
@@ -505,3 +557,4 @@ class LoancalculatorsForm(forms.Form):
 	# interest_basics = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 	loan_calculation_method = forms.ChoiceField(choices=CALCULATION_METHOD, label="Calculation Method", widget=forms.Select(attrs={'class': 'form-control'}))
 	repayment_start_date = forms.DateField(required=True, label="Repayment StartDate",widget=forms.DateInput(attrs={"type": "date","class": "form-control"}))
+

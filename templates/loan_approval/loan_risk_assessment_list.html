@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Loan Risk Assessment List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Loan Risk Assessment List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>Active</th>
+                        <th>Application ID</th>
+                        <th>Customer Name</th>
+                        <th>Loan Type</th>
+                        <th>Loan Amount</th>
+                        <th>Application Status</th>
+                        <th>Risk Score (%)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in records %}
+                    <tr>
+                        <td>{% if item.is_active %}<span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> </span>{% else %}<span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i></span>{% endif %}</td>
+                        <td>{{ item.application_id}}</td>
+                        <td>{{ item.customer_id.firstname }} {{ item.customer_id.lastname }}</td>
+                        <td>{{ item.loantype.loantype }}</td>
+                        <td>{{ item.loan_amount }}</td>
+                        <td>{% if item.application_status == 'Submitted' %}<span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> {{item.application_status}} </span>{% else %}<span class="badge bg-info text-dark"><i class="bi bi-info-circle me-1"></i> {{item.application_status}}</span>{% endif %}</td>
+                        <td>{{ item.risk_score|floatformat:2 }}%</td>
+                        <td><a href="{% url 'loan_risk_assessment_detail' item.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                    {% endfor %}
+               
+               
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

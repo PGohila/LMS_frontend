@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 28px;
+    color: #333;
+}
+
+.details-section,
+.risk-section,
+.total-risk-section {
+    margin-bottom: 30px;
+}
+
+.details-section h2,
+.risk-section h2,
+.total-risk-section h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.details-table,
+.risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.details-table th,
+.details-table td,
+.risk-table th,
+.risk-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.details-table th {
+    background-color: #f7f7f7;
+    color: #555;
+}
+
+.risk-table th {
+    background-color: #e2f0fb;
+    color: #333;
+}
+
+.risk-table td {
+    color: #444;
+}
+
+.total-risk-section {
+    text-align: center;
+}
+
+.risk-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.progress-bar {
+    width: 80%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 10px;
+}
+
+span {
+    font-size: 16px;
+    color: #333;
+}
+
+</style>
+<body>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Loan Risk Assessment List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Loan Risk Assessment List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+               <!-- Customer Details Section -->
+        <section class="details-section">
+            <h2>Customer Details</h2>
+            <table class="details-table">
+                <tr>
+                    <th>Name</th>
+                    <td>{{records.customer_id.firstname}}</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>{{records.customer_id.age}}</td>
+                </tr>
+                <tr>
+                    <th>Credit Score</th>
+                    <td>{{records.customer_id.credit_score}}</td>
+                </tr>
+                <tr>
+                    <th>Income</th>
+                    <td>${{records.customer_id.customer_income}}</td>
+                </tr>
+                <tr>
+                    <th>Existing Liabilities</th>
+                    <td>${{records.customer_id.existing_liabilities}}</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Loan Application Details Section -->
+        <section class="details-section">
+            <h2>Loan Application Details</h2>
+            <table class="details-table">
+                <tr>
+                    <th>Loan Amount</th>
+                    <td>${{records.loan_amount}}</td>
+                </tr>
+                <tr>
+                    <th>Loan Type</th>
+                    <td>{{records.loantype.loantype}}</td>
+                </tr>
+                <tr>
+                    <th>Repayment Schedule</th>
+                    <td>{{records.repayment_schedule}}</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Risk Factors Section -->
+        <section class="risk-section">
+            <h2>Risk Factors</h2>
+            <table class="risk-table">
+                <tr>
+                    <th>Credit Score Risk</th>
+                    <td>Low</td>
+                </tr>
+                <tr>
+                    <th>Liabilities Risk</th>
+                    <td>Moderate</td>
+                </tr>
+                <tr>
+                    <th>Income to Loan Risk</th>
+                    <td>High</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Total Risk Score -->
+        <section class="total-risk-section">
+            <h2>Total Risk Score</h2>
+            <div class="risk-score">
+                <div class="progress-bar">
+                    <div class="progress" style="width: 70%;"></div>
+                </div>
+                <span>{{records.risk_score|floatformat:2}}% - Moderate Risk</span>
+            </div>
+        </section>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

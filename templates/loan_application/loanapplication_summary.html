@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #007BFF;
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f1f1;
+            color: #007BFF;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex: 1;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Loan Application Summary</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Loan Application Summary</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card" id="summary">
+            <div class="card-body" >
+              <h5 class="card-title"></h5>
+                <h2>Applicant Information</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{records.customer_id.firstname}} {{records.customer_id.lastname}}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact</th>
+                        <td>{{records.customer_id.phone_number}}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ records.customer_id.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>Verified</td>
+                    </tr>
+                </table>
+        
+                <h2>Loan Details</h2>
+                <table>
+                    <tr>
+                        <th>Loan Type</th>
+                        <td>{{ records.loantype.loantype }}</td>
+                    </tr>
+                    <tr>
+                        <th>Loan Amount</th>
+                        <td>${{records.loan_amount}}</td>
+                    </tr>
+                    <tr>
+                        <th>Interest Rate</th>
+                        <td>{{records.interest_rate}}%</td>
+                    </tr>
+                    <tr>
+                        <th>Tenure</th>
+                        <td>{{records.tenure}} {{records.tenure_type}}</td>
+                    </tr>
+                    <tr>
+                        <th>Repayment Schedule</th>
+                        <td>{{records.repayment_schedule}}</td>
+                    </tr>
+                    <tr>
+                        <th>Repayment Mode</th>
+                        <td>{{records.repayment_mode}}</td>
+                    </tr>
+                </table>
+        
+                <h2>Financial Information</h2>
+                <table>
+                    <tr>
+                        <th>Monthly Income</th>
+                        <td>${{ records.customer_id.customer_income }}</td>
+                    </tr>
+                  
+                    <tr>
+                        <th>Credit Score</th>
+                        <td>720</td>
+                    </tr>
+                </table>
+        
+                <h2>Application Status</h2>
+                <table>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ records.application_status }}</td>
+                    </tr>
+                    <tr>
+                        <th>Application Date</th>
+                        <td>{{ records.applied_at }}</td>
+                    </tr>
+                  
+                </table>
+        
+                <h2>Documentation</h2>
+                <table>
+                    <tr>
+                        <th>ID Proof</th>
+                        <td>Uploaded (Verified)</td>
+                    </tr>
+                    <tr>
+                        <th>Income Proof</th>
+                        <td>Uploaded (Pending)</td>
+                    </tr>
+                </table>
+        
+                <h2>Notes and Comments</h2>
+                <table>
+                    <tr>
+                        <th>Lender Comments</th>
+                        <td>Needs additional documents</td>
+                    </tr>
+                    <tr>
+                        <th>Applicant Comments</th>
+                        <td>Looking forward to approval</td>
+                    </tr>
+                </table>
+        
+                <div class="action-buttons">
+                  
+                    <button onclick="downloadPDF()">Download Summary</button>
+                    
+                </div>
+        
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Add title
+        doc.setFontSize(22);
+        doc.text("Loan Application Summary", 14, 22);
+        doc.setFontSize(12);
+        doc.text("Applicant Information:", 14, 40);
+
+        // Extract data from the summary
+        const applicantInfo = [
+            { label: "Name", value: "John Doe" },
+            { label: "Contact", value: "(123) 456-7890" },
+            { label: "Address", value: "123 Main St, City, Country" },
+            { label: "Status", value: "Verified" },
+        ];
+
+        let y = 50;
+        applicantInfo.forEach(info => {
+            doc.text(`${info.label}: ${info.value}`, 14, y);
+            y += 10;
+        });
+
+        // Add Loan Details
+        doc.text("Loan Details:", 14, y + 10);
+        y += 20;
+
+        const loanDetails = [
+            { label: "Loan Type", value: "Personal" },
+            { label: "Loan Amount", value: "$10,000" },
+            { label: "Interest Rate", value: "5%" },
+            { label: "Tenure", value: "12 Months" },
+            { label: "Repayment Schedule", value: "Monthly" },
+            { label: "Repayment Mode", value: "Both" },
+        ];
+
+        loanDetails.forEach(detail => {
+            doc.text(`${detail.label}: ${detail.value}`, 14, y);
+            y += 10;
+        });
+
+        // Add more sections similarly...
+
+        doc.save("Loan_Application_Summary.pdf");
+    }
+</script>
+  {% endblock %}
+
+ 

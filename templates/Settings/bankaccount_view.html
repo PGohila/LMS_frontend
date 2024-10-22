@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>BankAccount List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">BankAccount List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Account Number</th>
+                    <th scope="col">Holder Name</th>
+                    <th scope="col">Bank Name</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">NRFC</th>
+                    <th scope="col">Swift code</th>
+                    <th scope="col">IFSC Code</th>
+                    <th scope="col" >Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for data in records %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter}}</th>
+                    <td>{{ data.account_number }}</td>
+                    <td>{{ data.account_holder_name }}</td>
+                    <td>{{data.bank_name}}</td>
+                    <td>{{data.branch}}</td>
+                    <td>{{data.nrfc_number}}</td>
+                    <td>{{ data.swift_code }}</td>
+                    <td>{{ data.ifsc_code}}</td>
+           
+                    <td>
+                      <a href="#"><span data-toggle="tooltip" title="edit" style="color: black;"> <button class="btn btn-info btn-sm" type="button"><i class="fa fa-eye"></i>
+                      </button></a>
+                      <a href="{% url 'bankaccount_edit' data.id %}"><span data-toggle="tooltip" title="edit" style="color: black;"> <button class="btn btn-secondary btn-sm" type="button"><i class='fa fa-edit'></i>
+                      </button></a>
+                        <a href="{% url 'bankaccount_delete' data.id %}"><span data-toggle="tooltip" title="Delete" style="color: black;"><button class="btn btn-danger btn-sm" type="button"><i class='fa fa-remove' onclick="alert('You want to Delete this Item..?')"></i>
+                        </button></a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+               
+               
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

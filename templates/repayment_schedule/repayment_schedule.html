@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Repayment Schedule</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Repayment Schedule</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <h5 class="card-title">Application Details</h5>
+              <table style="font-size: 12px; line-height: 20px;">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                        <tbody>
+                          <tr>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Borrower ID:</th>
+                                  <td >{{loan_data.customer.customer_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Loan Application ID:</th>
+                                  <td >{{loan_data.loanapp_id.application_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Loan Amount:</th>
+                                  <td >{{loan_data.loanapp_id.loan_amount}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Disbursement Type:</th>
+                                  <td >{{loan_data.loanapp_id.disbursement_type}}</td>
+                                </tr>
+                                
+                            
+                              </table>
+                            </td>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Borrower Name: </th>
+                                  <td >{{loan_data.customer.firstname}} {{loan_data.customer.lastname}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Loan ID:</th>
+                                  <td >{{loan_data.loan_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">LoanType:</th>
+                                  <td >{{loan_data.loanapp_id.loantype.loantype}} <b>({{loan_data.loanapp_id.loantype.loantype_id}})</b></td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Tenure:</th>
+                                  <td >{{loan_data.loanapp_id.tenure}} {{loan_data.loanapp_id.tenure_type}}</td>
+                                </tr>
+                               
+                              
+                              </table>
+                            </td>
+                          </tr>
+       
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+                
+              </table>
+
+              <!-- Payment Schedule Table -->
+              <div class="table-responsive">
+                <table class="table datatable">
+                    <thead>
+                    <tr>
+                        <th>Schedule ID</th>
+                        <th>Payment Date</th>
+                        <th>Amount Due</th>
+                        <th>Interest Amount</th>
+                        <th>Amount Paid</th>
+                        <th>Balance</th>
+                        <th>Payment Status</th>
+                        <th>Payment Method</th>
+                        <th>Transaction ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in schedules %}
+                    <tr>
+                        <td><a href="#">{{data.schedule_id}}</a></td>
+                        <td>{{data.repayment_date}}</td>
+                        <td>${{data.instalment_amount}}</td>
+                        <td>${{data.interest_amount}}</td>
+                        <td>${{data.paid_amount}}</td>
+                        <td>${{data.remaining_balance}}</td>
+                        <td>{{data.repayment_status}}</td>
+                        <td>{% if data.payment_method == None %} - {% else %} {{ data.payment_method }} {% endif %}</td>
+                        <td>{% if data.transaction_id == None %} - {% else %} {{ data.transaction_id }} {% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+                </div>
+                <!-- Summary Information -->
+                <table class="table ">
+                    <tr>
+                        <td><strong>Total Amount Due:</strong> ${{total_installment_amount|floatformat:2}}</td>
+                        <td><strong>Total Amount Paid:</strong> ${{total_paid_amount|floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Next Payment Due:</strong> DD-MM-YYYY</td>
+                        <td><strong>Next Payment Amount:</strong> $500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Overdue Amount:</strong> $0</td>
+                    
+                    </tr>
+                    
+                </table>
+                <form method="post">
+                    {% csrf_token %}
+                
+                <!-- Action Buttons -->
+                <div class="button-container">
+                    <!-- <button class="button">Make Payment</button> -->
+                    
+                    <button class="btn btn-info btn-sm" type="button"><i class="fa fa-eye"></i> Download</button>
+                    <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-eye"></i> Confirm</button>
+                </div>
+            </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

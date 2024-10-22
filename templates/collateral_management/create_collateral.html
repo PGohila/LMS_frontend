@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Collateral</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Collateral</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{loanapplication_records.application_id}}</h5>
+               <!--<table style="font-size: 12px; line-height: 20px;">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                        <tbody>
+                          <tr>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Borrower ID:</th>
+                                  <td >{{loanapplication_records.customer_id.customer_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;E-mail:</th>
+                                  <td >{{loanapplication_records.customer_id.email}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Application ID:</th>
+                                  <td >{{loanapplication_records.application_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Loan Amount:</th>
+                                  <td >{{loanapplication_records.loan_amount}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Disbursement Type:</th>
+                                  <td >{{loanapplication_records.disbursement_type}}</td>
+                                </tr>
+                            
+                              </table>
+                            </td>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Borrower Name: </th>
+                                  <td >{{loanapplication_records.customer_id.firstname}} {{loanapplication_records.customer_id.lastname}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Phone:</th>
+                                  <td >{{loanapplication_records.customer_id.phone_number}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">LoanType:</th>
+                                  <td >{{loanapplication_records.loantype.loantype}} <b>({{loanapplication_records.loantype.loantype_id}})</b></td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Tenure:</th>
+                                  <td >{{loanapplication_records.tenure}} {{loanapplication_records.tenure_type}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Loan Purpose:</th>
+                                  <td >{{loanapplication_records.loan_purpose}}</td>
+                                </tr>
+                              
+                              </table>
+                            </td>
+                          </tr>
+       
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+                
+              </table> -->
+              
+              <div class="col-md-12">
+                     
+                        <h5 class="card-title">Add Collateral Details </h5>
+                        <form method="post" enctype="multipart/form-data">
+                          {% csrf_token %}
+                   
+                          <button type="submit" name="collateral_btn" value="collateral_btn" class="btn btn-outline-success btn-sm">Submit</button><button type="reset" class="btn btn-outline-info btn-sm">Reset</button>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="table_Collaterals">
+                                <thead class="thead-light">
+                                    <tr>
+                                      {% for field in forms%}
+                                        <th class="text-center p-3">{{ field.label }}</th> <!-- Field Labels -->
+                                        {% endfor %}
+                                        <th class="text-center p-3">Action</th> <!-- Action column -->
+                                    </tr>
+                                </thead>
+
+                                <tbody id = "collateral_tbody">
+                         
+                                    <tr id="row_{{ forloop.counter }}">
+                                    
+                                        <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                            <div class="form-group">
+                                              <select name="collateral_type" id="collateral_type" class="form-control">
+                                                {% for type in collateral_type %}
+                                                  <option value="{{type.id}}">{{type.name}}</option>
+                                                  {% endfor %}
+                                              </select>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                          <div class="form-group">
+                                            <input type="number" name="collateral_value" class="form-control" >
+                                          </div>
+                                      </td>
+                                      <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                        <div class="form-group">
+                                          <input type="date" name="value_date" class="form-control" >
+                                        </div>
+                                    </td>
+                                    <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                      <div class="form-group">
+                                        <select name="collateral_status" id="collateral_status" class="form-control">
+                                         
+                                            <option value="Held">Held</option>
+                                            <option value="Released">Released</option>
+                                            <option value="Sold">Sold</option>
+                                         
+                                        </select>
+                                      </div>
+                                  </td>
+                                    <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                      <div class="form-group">
+                                        <select name="insurance_status" id="insurance_status" class="form-control">
+                                            <option value="Insured">Insured</option>
+                                            <option value="Not insured">Not insured</option>
+                                            
+                                        </select>
+                                      </div>
+                                  </td>
+                                  <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                    <div class="form-group">
+                                      <textarea name="description" id="description" class="form-control" style="height: 70px;  width: 400px;"></textarea>
+                                    </div>
+                                </td>
+                                        
+                                        <td class="align-middle text-center"> <!-- Center align action buttons -->
+                                            <button class="btn btn-success" type="button" onclick="cloneRow('table_Collaterals', 'collateral_tbody')">+</button>
+                                            <button class="btn btn-danger" type="button" onclick="removeRow(this)">-</button>
+                                    </tr>
+                                 
+                                </tbody>
+                            </table>
+                     
+                        </div>
+                      </form>
+              </div>
+               
+              <div class="col-md-12">
+               
+                <h5 class="card-title">Attach Collateral Documents</h5>
+                <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+           
+                  <button type="submit" name="attachment_btn" value="attachment_btn" class="btn btn-outline-success btn-sm">Submit</button>
+                    <table class="table table-bordered" id="table_attachment">
+                        <thead class="thead-light">
+                            <tr>
+              
+                                <th class="text-center p-3">Document Name</th> <!-- Field Labels -->
+                                <th>Upload</th>
+                                <th>Description</th>
+                                <th class="text-center p-3">Action</th> <!-- Action column -->
+                            </tr>
+                        </thead>
+
+                        <tbody id = "attachment_tbody">
+                 
+                            <tr id="row_{{ forloop.counter }}">
+                            
+                              
+                                <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                  <div class="form-group">
+                                    <input type="text" name="document_name" id="id_document_name" class="form-control" >
+                                  </div>
+                              </td>
+                              <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                                <div class="form-group">
+                                  <input type="file" name="uploaded_file" id="id_uploaded_file" class="form-control">
+
+                                </div>
+                            </td>
+                            
+                          <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+                            <div class="form-group">
+                              <textarea name="description1" id="id_description1" class="form-control" style="height: 70px;  width: 400px;"></textarea>
+                            </div>
+                        </td>
+                                
+                                <td class="align-middle text-center"> <!-- Center align action buttons -->
+                                    <button class="btn btn-success" type="button" onclick="AttachmentcloneRow('table_attachment', 'attachment_tbody')">+</button>
+                                    <button class="btn btn-danger" type="button" onclick="AttachmentremoveRow(this)">-</button></td>
+                            </tr>
+                         
+                        </tbody>
+                    </table>
+             
+                </div>
+              </form>
+      </div>
+                
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    
+  
+  </main><!-- End #main -->
+  <!-- add row for collateral -->
+  <script>
+    let rowCount = 1; // Initialize row count based on the current loop counter
+    function cloneRow(currentRow) {
+        rowCount++; // Increment the row count for unique IDs
+        const tableBody = document.getElementById('collateral_tbody'); // Get the table body
+
+        // Create a new row
+        const newRow = document.createElement('tr');
+        newRow.id = `row_${rowCount}`;
+        
+        newRow.innerHTML = `
+            <td class="align-middle p-3">
+                <div class="form-group">
+                    <select name="collateral_type" id="collateral_type_${rowCount}" class="form-control" required>
+                        {% for type in collateral_type %}
+                            <option value="{{ type.id }}">{{ type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </td>
+            <td class="align-middle p-3">
+                <div class="form-group">
+                    <input type="number" name="collateral_value" id="collateral_value_${rowCount}" class="form-control" required>
+                </div>
+            </td>
+            <td class="align-middle p-3">
+                <div class="form-group">
+                    <input type="date" name="value_date" id="value_date_${rowCount}" class="form-control" required>
+                </div>
+            </td>
+            <td class="align-middle p-3">
+                <div class="form-group">
+                    <select name="collateral_status" id="collateral_status_${rowCount}" class="form-control" required>
+                        <option value="Held">Held</option>
+                        <option value="Released">Released</option>
+                        <option value="Sold">Sold</option>
+                    </select>
+                </div>
+            </td>
+            <td class="align-middle p-3">
+                <div class="form-group">
+                    <select name="insurance_status" id="insurance_status_${rowCount}" class="form-control" required>
+                        <option value="Insured">Insured</option>
+                        <option value="Not insured">Not insured</option>
+                    </select>
+                </div>
+            </td>
+            <td class="align-middle p-3">
+                <div class="form-group">
+                    <textarea name="description" id="description_${rowCount}" class="form-control" style="height: 70px; width: 400px;"></textarea>
+                </div>
+            </td>
+            <td class="align-middle text-center">
+                <button class="btn btn-success" type="button" onclick="cloneRow('${rowCount}')">+</button>
+                <button class="btn btn-danger" type="button" onclick="removeRow(this)">-</button>
+            </td>
+        `;
+        
+        // Append the new row to the table body
+        tableBody.appendChild(newRow);
+        rowCount+=1;
+    }
+
+    function removeRow(button) {
+        const row = button.closest('tr'); // Get the row of the button clicked
+        const tableBody = document.getElementById('collateral_tbody'); // Get the table body
+
+        // Check if the row is the first row (index 0)
+        if (row === tableBody.firstElementChild) {
+            alert("You cannot remove the first row."); // Show alert
+        } else {
+            row.remove(); // Remove the row if it's not the first one
+        }
+    }
+  </script>
+
+  <!-- ======== collateral attachemnt document upload table clone ================= -->
+  <script>
+    let rowCount1 = 1; // Initialize row count based on the current loop counter
+    function AttachmentcloneRow(currentRow) {
+        rowCount++; // Increment the row count for unique IDs
+        const tableBody = document.getElementById('attachment_tbody'); // Get the table body
+
+        // Create a new row
+        const newRow = document.createElement('tr');
+        newRow.id = `row_${rowCount1}`;
+        
+        newRow.innerHTML = `
+           <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+              <div class="form-group">
+                <input type="text" name="document_name" id="id_document_name_${rowCount1}" class="form-control" >
+              </div>
+          </td>
+          <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+            <div class="form-group">
+              <input type="file" name="uploaded_file" id="id_uploaded_file_${rowCount1}" class="form-control">
+
+            </div>
+        </td>
+                            
+        <td class="align-middle p-3"> <!-- Align values in the middle and add padding -->
+          <div class="form-group">
+            <textarea name="description1" id="id_description1_${rowCount1}" class="form-control" style="height: 70px;  width: 400px;"></textarea>
+          </div>
+      </td>
+                                
+        <td class="align-middle text-center"> <!-- Center align action buttons -->
+            <button class="btn btn-success" type="button" onclick="AttachmentcloneRow('${rowCount1}')">+</button>
+            <button class="btn btn-danger" type="button" onclick="AttachmentremoveRow(this)">-</button></td>
+        `;
+        
+        // Append the new row to the table body
+        tableBody.appendChild(newRow);
+        rowCount+=1;
+    }
+
+    function AttachmentremoveRow(button) {
+        const row = button.closest('tr'); // Get the row of the button clicked
+        const tableBody = document.getElementById('attachment_tbody'); // Get the table body
+
+        // Check if the row is the first row (index 0)
+        if (row === tableBody.firstElementChild) {
+            alert("You cannot remove the first row."); // Show alert
+        } else {
+            row.remove(); // Remove the row if it's not the first one
+        }
+    }
+  </script>
+  {% endblock %}
+
+ 

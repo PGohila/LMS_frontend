@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+    <style>
+        th {
+            background-color: rgb(174, 174, 247);
+        }
+    </style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Repayment schedule OverView</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Disbursed Loans</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Loan Details</h5>
+                <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                    <th >Loan Amount</th><td>$</td>
+                    </tr>
+                    <tr>
+                        <th>Interest Rate</th><td>$</td>
+                    </tr>
+                    <tr>
+                        <th>Loan Periods</th><td></td>
+                    </tr>
+                    <tr>
+                        <th>Number of Payment per Year</th><td></td>
+                    </tr>
+                    <tr>
+                        <th>Start date of loan</th><td></td>
+                    </tr>
+                    
+                </table>
+                </div>
+                
+  
+              </div>
+            </div>
+  
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Links and buttons</h5>
+  
+                <!-- List group with Links and buttons -->
+                <div class="list-group">
+                  <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
+                    The current button
+                  </button>
+                  <button type="button" class="list-group-item list-group-item-action">A second item</button>
+                  <button type="button" class="list-group-item list-group-item-action">A third button item</button>
+                  <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
+                  <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button item</button>
+                </div><!-- End List group with Links and buttons -->
+  
+              </div>
+            </div>
+  
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">With Icons</h5>
+  
+                <!-- List group With Icons -->
+                <ul class="list-group">
+                  <li class="list-group-item"><i class="bi bi-star me-1 text-success"></i> An item</li>
+                  <li class="list-group-item"><i class="bi bi-collection me-1 text-primary"></i> A second item</li>
+                  <li class="list-group-item"><i class="bi bi-check-circle me-1 text-danger"></i> A third item</li>
+                  <li class="list-group-item"><i class="bi bi-exclamation-octagon me-1 text-warning"></i> A fourth item</li>
+                </ul><!-- End List group With Icons -->
+  
+              </div>
+              </div>
+  
+
+            </div>
+  
+            <div class="col-lg-6">
+  
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Loan Summary</h5>
+  
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                        <th> Schedule Payment</th><td>$</td>
+                        </tr>
+                        <tr>
+                            <th>Schedule Number of Payments</th><td>$</td>
+                        </tr>
+                        <tr>
+                            <th>Total Early Payment</th><td></td>
+                        </tr>
+                        <tr><th>Total Interest</th><td></td>
+                        </tr>
+                        <tr><th>Optional Extra Payments</th><td></td>
+                        </tr>
+                        
+                    </table>
+                    </div>
+  
+                </div>
+              </div>
+  
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Clean list group</h5>
+                  <p>Add <code>.list-group-flush</code> to remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).</p>
+  
+                  <!-- List group with active and disabled items -->
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item disabled" aria-disabled="true">A disabled item</li>
+                  </ul><!-- End Clean list group -->
+  
+                </div>
+              </div>
+  
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">With custom content</h5>
+  
+                <!-- List group with custom content -->
+                <ol class="list-group list-group-numbered">
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Cras justo odio
+                    </div>
+                    <span class="badge bg-primary rounded-pill">14</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Cras justo odio
+                    </div>
+                    <span class="badge bg-primary rounded-pill">14</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Cras justo odio
+                    </div>
+                    <span class="badge bg-primary rounded-pill">14</span>
+                  </li>
+                </ol><!-- End with custom content -->
+  
+              </div>
+            </div>
+  
+           
+            
+  
+          </div>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 

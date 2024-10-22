@@ -1,0 +1,384 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+<style>
+    * {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 2.5em;
+    color: #333;
+}
+
+.section-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.loan-details, .risk-assessment, .collateral-info, .repayment-schedule {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #e9ecef;
+    border-radius: 5px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+.value {
+    color: #007bff;
+}
+
+.value.approved {
+    color: green;
+}
+
+.risk-factor {
+    font-style: italic;
+    color: #555;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.approve-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.approve-button:hover {
+    background-color: #218838;
+}
+
+.decline-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.decline-button:hover {
+    background-color: #c82333;
+}
+
+.back-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+</style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Pending Application List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Pending Application List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <table style="font-size: 12px; line-height: 20px;">
+                 
+                <tbody>
+                  <tr>
+                    <td>
+                        <h2 class="section-title">Applicant Details</h2>
+                      <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                        <tbody>
+                          <tr>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Borrower ID:</th>
+                                  <td >{{customer_data.customer_id}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;E-mail:</th>
+                                  <td >{{customer_data.email}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Date Birth:</th>
+                                  <td >{{customer_data.dateofbirth}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">&nbsp;Income:</th>
+                                  <td >{{customer_data.customer_income}}</td>
+                                </tr>
+                            
+                              </table>
+                            </td>
+                            <td style="vertical-align: top;padding-bottom: 20px;">
+                              <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Borrower Name: </th>
+                                  <td >{{customer_data.firstname}} {{customer_data.lastname}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Phone:</th>
+                                  <td >{{customer_data.phone_number}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Age:</th>
+                                  <td >{{customer_data.age}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="text-align: left; color: #1A1C21;">Address:</th>
+                                  <td >{{customer_data.address}}</td>
+                                </tr>
+                              
+                              </table>
+                            </td>
+                          </tr>
+       
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <br>
+                  <tr>
+                    <td>
+                        <h2 class="section-title">Application Details</h2>
+                        <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                            <tbody>
+                              <tr>
+                                <td style="vertical-align: top;padding-bottom: 20px;">
+                                  <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Application ID:</th>
+                                      <td >{{application_data.application_id}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Loan Type:</th>
+                                      <td >{{application_data.loantype.loantype}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Loan Amount:</th>
+                                      <td >{{application_data.loan_amount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: left; color: #1A1C21;">&nbsp;Disbursement Type:</th>
+                                        <td >{{application_data.disbursement_type}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Loan Purpose:</th>
+                                      <td >{{application_data.loan_purpose}}</td>
+                                    </tr>
+                                    
+                                
+                                  </table>
+                                </td>
+                                <td style="vertical-align: top;padding-bottom: 20px;">
+                                  <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">Application Status: </th>
+                                      <td >{{application_data.application_status}} </td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">Interest Rate:</th>
+                                      <td >{{application_data.interest_rate}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">Tenure:</th>
+                                      <td >{{application_data.tenure}} {{application_data.tenure_type}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">Repayment Schedule:</th>
+                                      <td >{{application_data.repayment_schedule}}</td>
+                                    </tr>
+                                  
+                                  </table>
+                                </td>
+                              </tr>
+           
+                            </tbody>
+                          </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <h2 class="section-title">Risk Assessment</h2>
+                        <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                            <tbody>
+                              <tr>
+                                <td style="vertical-align: top;padding-bottom: 20px;">
+                                  <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Credit Score :</th>
+                                      <td >{{customer_data.credit_score}}</td>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <th style="text-align: left; color: #1A1C21;">&nbsp;Risk Factors:</th>
+                                        <td >{{application_data.risk_score}}</td>
+                                      </tr>
+                                      <tr>
+                                        <th style="text-align: left; color: #1A1C21;">&nbsp;Risk Score:</th>
+                                        <td >{{application_data.risk_factor}}</td>
+                                      </tr>
+                                
+                                  </table>
+                                </td>
+                    
+                              </tr>
+           
+                            </tbody>
+                          </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <h2 class="section-title">Collateral Information</h2>
+                        <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                            <tbody>
+                              <tr>
+                                <td style="vertical-align: top;padding-bottom: 20px;">
+                                  <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Collateral ID:</th>
+                                      <td >{{application_data.application_id}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Collateral Type:</th>
+                                      <td >{{application_data.loantype.loantype}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">&nbsp;Collateral Value:</th>
+                                      <td >{{application_data.loan_amount}}</td>
+                                    </tr>
+                             
+                                    
+                                
+                                  </table>
+                                </td>
+                                <td style="vertical-align: top;padding-bottom: 20px;">
+                                  <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">Valuation Date: </th>
+                                      <td >{{application_data.application_status}} </td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">Collateral Status:</th>
+                                      <td >{{application_data.interest_rate}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th style="text-align: left; color: #1A1C21;">Insurance Status:</th>
+                                      <td >{{application_data.tenure}} {{application_data.tenure_type}}</td>
+                                    </tr>
+                               
+                                  
+                                  </table>
+                                </td>
+                              </tr>
+           
+                            </tbody>
+                          </table>
+                    </td>
+                  </tr>
+                </tbody>
+                
+              </table>
+
+            <form method="post">
+                {% csrf_token %}
+          
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="submit" class="btn btn-outline-success" name="approveBtn" value="Approved">Approve</button>
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter">Decline</button>
+                    <a href="{% url 'loanapplication' %}" type="button" class="btn btn-outline-primary">Back</a>
+                  </div>
+        </form>
+        </div>
+    
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!--loan decline reason Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Loan Decline Reason</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+        <div class="modal-body">
+            <label for="reason">Reason for Declining:</label>
+            <input type="text" id="reason" class="form-control" name="reason" required placeholder="Enter decline reason...">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" name="Decline" value="Decline" class="btn btn-primary">Confirm</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+ 

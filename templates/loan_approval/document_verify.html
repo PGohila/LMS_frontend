@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<body>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Document Verify</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Document Verify</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <form method="post">
+                {% csrf_token %}
+            
+                    <div style="display: flex; align-items: center;">
+                    <!-- <h5 style="margin-right: 20px;">Customer Details</h5> -->
+                    <button type="submit" class="btn btn-outline-info btn-sm" name="verifying" value="Verified">Verified</button>&nbsp;
+                    <a href="{% url 'customerdocuments' %}" class="btn btn-outline-info btn-sm" >Add</a>
+                    </div>
+
+                <table style="font-size: 12px; line-height: 20px;">
+                 
+                  <tbody>
+                    <tr>
+                      <td>
+                        <table style="background-color: #FFF; padding: 30px; border: 1px solid #D7DAE0;width: 100%;font-size: 15px; line-height: 20px; table-layout: fixed;">
+                          <tbody>
+                            <tr>
+                              <td style="vertical-align: top;padding-bottom: 20px;">
+                                <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">&nbsp;Borrower ID:</th>
+                                    <td >{{customer_data.customer_id}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">&nbsp;E-mail:</th>
+                                    <td >{{customer_data.email}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">&nbsp;Date Birth:</th>
+                                    <td >{{customer_data.dateofbirth}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">&nbsp;Income:</th>
+                                    <td >{{customer_data.customer_income}}</td>
+                                  </tr>
+                              
+                                </table>
+                              </td>
+                              <td style="vertical-align: top;padding-bottom: 20px;">
+                                <table style="table-layout: fixed;width:-webkit-fill-available;">
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">Borrower Name: </th>
+                                    <td >{{customer_data.firstname}} {{customer_data.lastname}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">Phone:</th>
+                                    <td >{{customer_data.phone_number}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">Age:</th>
+                                    <td >{{customer_data.age}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th style="text-align: left; color: #1A1C21;">Address:</th>
+                                    <td >{{customer_data.address}}</td>
+                                  </tr>
+                                
+                                </table>
+                              </td>
+                            </tr>
+         
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                  
+                </table>
+          
+
+              
+                    <div style="border: 2;">
+
+                    {% for data in documents %}
+                    <div class="col-md-12 px-3 py-3">
+                      <i class="bi bi-star me-1 text-success"></i>
+                        <a href="{{BASEURL}}{{ data.documentfile }}" target="_blank">{{ data.documentfile }}</a></div>
+                        
+                    {% endfor %}
+                  </div>
+                    
+                
+            </form>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+ 
